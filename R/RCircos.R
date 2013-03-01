@@ -499,7 +499,7 @@ RCircos.Get.Label.Locations<-function(cyto.band, genomic.data,
 	#	********************************************************
 	for(a.row in 1:nrow(genomic.data)) {
 		if(length(grep("chr", genomic.data[a.row,1]))==0) 
-		{ gene.data[a.row,1] <- paste("chr", genomic.data[a.row,1], sep=""); }
+		{ genomic.data[a.row,1] <- paste("chr", genomic.data[a.row,1], sep=""); }
 	}
 
 	chromosomes <- unique(cyto.band$Chromosome);

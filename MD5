@@ -1,8 +1,6 @@
-5ae513b9e70785eeb5060acb7e767541 *DESCRIPTION
-8b54e5a89fbda3af5e077053d40bec76 *NAMESPACE
-787d2b56da6a8aa6b6b9c765d0bd943c *R/RCircos.R
-75b47a31050df3ce735bae7069562a15 *RCircos.Demo.Human.tif
-3bec1b181c97c3d9040aaf338d2efb03 *RCircos.Demo.Mouse.And.Rat.tif
+e963f398414cb1edd7dac1b2ec2b7a6d *DESCRIPTION
+df390c53434517b304ac5db487184641 *NAMESPACE
+66cf79618c7ccccb91d741602500359f *R/RCircos.R
 a671a7d7b65642cfba387b2b5322d675 *data/RCircos.Gene.Label.Data.RData
 2ba7a0e81bbf7cb09e8f9eb234eb1960 *data/RCircos.Heatmap.Data.RData
 4e65f995d98aefb4603de65fc61454fd *data/RCircos.Histogram.Data.RData
@@ -15,7 +13,6 @@ a0f766267959c65726ec594da7b24ee8 *data/RCircos.Tile.Data.RData
 a2fcac8f6fb5f88583d98817fa58d93b *data/UCSC.Baylor.3.4.Rat.cytoBandIdeogram.RData
 df6c9a21b42de001c34a4b855ec16394 *data/UCSC.HG19.Human.CytoBandIdeogram.RData
 92872d6fbbb32efb7c8320b9968ab599 *data/UCSC.Mouse.GRCm38.CytoBandIdeogram.RData
-aaa5bc5d1c3c5c23c732b78699de7e1d *data/datalist
 4ea174daf807b81e44bab5e82d65b6fc *demo/00Index
 7fdb4f40c16add07d15487e71239a355 *demo/RCircos.Demo.Human.R
 19e30c08d8aad14dbe82adf87c4dcd7f *demo/RCircos.Demo.Mouse.And.Rat.R
@@ -28,8 +25,8 @@ fe3b79f99707f3a653e044752d9dab5b *demo/RCircos.Histogram.Demo.R
 eebba827816249da16eef8b23cc35aa3 *demo/RCircos.Scatter.Plot.Demo.R
 84dc728c4b89b458c481f30e8530c839 *demo/RCircos.Tile.Plot.Demo.R
 3081c5beafbb3021d70c2dbc17d551de *inst/doc/RCircos-manual.pdf
-dd9d8b441d351425dd6f6c94f750761b *inst/doc/RCircos.pdf
-d20ccef46732d6eece9aea3b367554bb *man/RCircos-package.Rd
+e7965977f90bf8cd15ab47bee41d2519 *inst/doc/RCircos.pdf
+66fbe38a46ebc907892d75d4ef1f670b *man/RCircos-package.Rd
 39799256e8df38ddfd02fa1327fef0ad *man/RCircos.Base.Plot.Positions.Rd
 e210a4247e91d454387b8ec08e9f296a *man/RCircos.Chromosome.Ideogram.Rd
 022a644302a02fa6549ac0e612c09a5d *man/RCircos.Connector.Rd

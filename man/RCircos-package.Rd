@@ -23,7 +23,7 @@ Hongen Zhang
 Maintainer: Hongen Zhang <hzhang@mail.nih.gov> 
 }
 \references{
-Hongen Zhang, Paul Meltzer, and Sean Davis. RCircos: an R package for Circos 2D track plot of geneomic data. To be published soon.
+Hongen Zhang, Paul Meltzer, and Sean Davis. RCircos: an R package for Circos 2D track plots. To be published soon.
 }
 \keyword{ package }
 \examples{
