@@ -1,0 +1,12 @@
+RCircos.Gene.Label.Data
+RCircos.Heatmap.Data
+RCircos.Histogram.Data
+RCircos.Line.Data
+RCircos.Link.Data
+RCircos.Mouse.Expr.Data
+RCircos.Rat.Expr.Data
+RCircos.Scatter.Data
+RCircos.Tile.Data
+UCSC.Baylor.3.4.Rat.cytoBandIdeogram
+UCSC.HG19.Human.CytoBandIdeogram
+UCSC.Mouse.GRCm38.CytoBandIdeogram

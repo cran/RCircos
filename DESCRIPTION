@@ -1,8 +1,8 @@
 Package: RCircos
 Type: Package
 Title: Circos 2D Track Plot
-Version: 1.0.1
-Date: 2013-02-25
+Version: 1.0.2
+Date: 2013-03-06
 Author: Hongen Zhang
 Maintainer: Hongen Zhang <hzhang@mail.nih.gov>
 Description: RCircos package provides a simple and flexible way to
@@ -12,8 +12,9 @@ Description: RCircos package provides a simple and flexible way to
         functions require only R graphics package that comes with R
         base installation.
 License: GPL (>= 2)
-Packaged: 2013-02-28 20:30:15 UTC; hzhang
 Depends: R (>= 2.10)
+URL: http://bitbucket.org/henryhzhang/rcircos
+Packaged: 2013-03-07 17:50:05 UTC; hzhang
 NeedsCompilation: no
 Repository: CRAN
-Date/Publication: 2013-03-01 07:46:46
+Date/Publication: 2013-03-08 07:24:46
