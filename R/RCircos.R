@@ -1,3 +1,4 @@
+# R ____________________________________________________________________________________
 # R ************************************************************************************
 # R
 # R	R Source code for RCircos package
@@ -5,7 +6,7 @@
 # R	Date created: January 2, 2013
 # R	by Hongen Zhang, Ph.D. (hzhang@mail.nih.gov)
 # R
-# R	Last revised on Feb 4, 2013
+# R	Last revised on March 6, 2013
 # R	by Hongen Zhang, Ph.D. (hzhang@mail.nih.gov)
 # R
 # R	Center for Cancer Research Bioiformatics Program, 
@@ -14,6 +15,7 @@
 # R	Bethesda, Maryland 20892
 # R
 # R
+# R ____________________________________________________________________________________
 # R ************************************************************************************
 
 
@@ -76,7 +78,7 @@ RCircos.List.Parameters<-function(RCircos.Par)
 	cat(paste("chrom.paddings:\t", RCircos.Par$chrom.paddings, "\n"));
 
 
-	cat(paste("highlight.width:\t",  RCircos.Par$highlight.width, "\n"));
+	cat(paste("highlight.width:",  RCircos.Par$highlight.width, "\n"));
 	cat(paste("hist.width:\t",  RCircos.Par$hist.width, "\n"));
 	cat(paste("text.size:\t",  RCircos.Par$text.size, "\n"));
 	cat(paste("heatmap.width:\t",  RCircos.Par$heatmap.width, "\n\n"));
@@ -385,6 +387,90 @@ RCircos.Data.Point<-function(cyto.band, chromosome, start)
 
 
 #  =====================================================================
+#	Validate input dataset for correct chromosome names, chromosome
+#	start and chromosome end positions. Chromosome names will be
+#	converted to character vectors if they are factor variables.
+#  =====================================================================
+#
+RCircos.Validate.Genomic.Data<-function(genomic.data, cyto.band,
+			plot.type=c("plot", "link"))
+{
+	
+	if(plot.type=="plot") { chrom.col <- 1; } else { chrom.col <- c(1,4); }
+	
+	for (a.col in 1:length(chrom.col))
+	{
+		the.col <- chrom.col[a.col];
+
+		#	Make sure chromosome names have prefix
+		#	**************************************************
+		genomic.data[,the.col] <- as.character(genomic.data[,the.col]);
+		for(a.row in 1:nrow(genomic.data)) {
+			if(length(grep("chr", genomic.data[a.row,the.col]))==0) 
+			{ genomic.data[a.row,the.col] <- paste("chr", 
+				genomic.data[a.row,the.col], sep=""); }
+		}
+
+		#	Make sure chromosomes in input data are all included 
+		#	in chromosome ideogram data
+		#	*************************************************
+		cyto.chroms <- as.character(unique(cyto.band$Chromosome));
+		data.chroms <- unique(genomic.data[,the.col]);
+		if(sum(data.chroms %in% cyto.chroms) < length(data.chroms)) { 
+			stop("Error! Some chromosomes not in cyto.band data."); 
+			return (NULL); 
+		}
+	
+
+		#	Make sure chromosome start and end locations in
+		#	input data are greater than 0
+		#	************************************************
+		if(min(genomic.data[,the.col+1])<0) 
+		{ print("Error! chromStart position less than 0."); return (NULL);  }
+		if(min(genomic.data[,the.col+2])<0) 
+		{ print("Error! chromEnd position less than 0."); return (NULL);  }	
+
+
+		#	Make sure chromosome start and end locations in
+		#	input data are not out of chromosome length
+		#	************************************************
+		for(a.chr in 1:length(data.chroms))
+		{
+			the.chr      <- data.chroms[a.chr];
+			in.data      <- genomic.data[genomic.data[,the.col]==the.chr,];
+			cyto.data <- cyto.band[grep(the.chr, cyto.band[,1]),]
+
+			if(max(in.data[,the.col+1])>max(cyto.data[,3]) | 
+				max(in.data[,the.col+2])>max(cyto.data[,3]))
+			{  
+				stop("Error! Location is outside of chromosome length."); 
+				print(paste(the.chr, max(in.data[,2]), max(in.data[,3]))); 
+				return (NULL); 
+			}
+		}
+
+		
+		#	Make sure all chromosome start positions are smaller than
+		#	their paired chromosome end positions
+		#	****************************************************
+		for(a.row in 1:nrow(genomic.data))
+		{
+			if(genomic.data[a.row, the.col+1]>genomic.data[a.row, the.col+2]) 
+			{ 
+				print("chromStart greater than chromEnd"); 
+				print(paste("Row:", a.row, genomic.data[a.row, 2],  
+					genomic.data[a.row, 3]));
+				return(NULL); 
+			}
+		}
+	}
+
+	cat("Input data validated.\n");
+	return (genomic.data);
+}
+
+
+#  =====================================================================
 #	Calculate x and y coordinates for each row of a data set.
 #  =====================================================================
 #	
@@ -392,41 +478,8 @@ RCircos.Get.Plot.Data<-function(genomic.data, cyto.band)
 {
 	#	Check chromosome names,Start, andEnd positions
 	#	***********************************************
-	cat("Checking input data ...\n");
-	genomic.data[,1] <- as.character(genomic.data[,1]);
-	for(a.row in 1:nrow(genomic.data)) {
-		if(length(grep("chr", genomic.data[a.row,1]))==0) 
-		{ genomic.data[a.row,1] <- paste("chr", 
-			genomic.data[a.row,1], sep=""); }
-	}
-
-	cyto.chrom <- as.character(unique(cyto.band$Chromosome));
-	chroms <- as.character(unique(genomic.data[,1]));
-	if(sum(chroms %in% cyto.chrom) < length(chroms)) { 
-		stop("Error! Some chromosomes not in cyto.band data."); 
-		return (NULL); 
-	}
-	
-	if(min(genomic.data[,2])<0) 
-	{ print("Error! chromStart position less than 0."); return (NULL);  }
-	if(min(genomic.data[,3])<0) 
-	{ print("Error! chromEnd position less than 0."); return (NULL);  }	
-
-	chromosomes <- unique(genomic.data[,1]);
-	for(a.chr in 1:length(chromosomes))
-	{
-		the.chr      <- paste(chromosomes[a.chr], "$", sep="");
-		in.data      <- genomic.data[grep(the.chr, genomic.data[,1]),];
-		cyto.data <- cyto.band[grep(the.chr, cyto.band[,1]),]
-
-		if(max(in.data[,2])>max(cyto.data[,3]) | 
-			max(in.data[,3])>max(cyto.data[,3]))
-		{  
-			stop("Error! Location is outside of chromosome length."); 
-			print(paste(the.chr, max(in.data[,2]), max(in.data[,3]))); 
-			return (NULL); 
-		}
-	}
+	genomic.data <- RCircos.Validate.Genomic.Data(genomic.data, 
+			cyto.band, plot.type="plot");
 
 
 	#	Calculate the point index for each chromosome location
@@ -497,20 +550,14 @@ RCircos.Get.Label.Locations<-function(cyto.band, genomic.data,
 {
 	#	Check chromosome names, Start, and End positions
 	#	********************************************************
-	for(a.row in 1:nrow(genomic.data)) {
-		if(length(grep("chr", genomic.data[a.row,1]))==0) 
-		{ genomic.data[a.row,1] <- paste("chr", genomic.data[a.row,1], sep=""); }
-	}
+	genomic.data <- RCircos.Validate.Genomic.Data(genomic.data, 
+			cyto.band, plot.type="plot");
 
-	chromosomes <- unique(cyto.band$Chromosome);
-	chroms <- as.character(unique(genomic.data[,1]));
-	if(sum(chroms %in% chromosomes) < length(chroms)) { 
-		stop("Error! Some chromosomes not in cyto.band data."); 
-		return (NULL); 
-	}
 
 	#	Get maximum number of lables for each chromosome. 
 	#	**********************************************************
+	chromosomes <- unique(cyto.band$Chromosome);
+
 	label.type <- tolower(label.type);
 	if(label.type=="text") {  
 		label.width <- RCircos.Par$text.size/0.4*5000; 
@@ -589,7 +636,7 @@ RCircos.Get.Label.Locations<-function(cyto.band, genomic.data,
 	}
 	colnames(label.data) <- colnames(genomic.data);
 
-	return (label.data)
+	return (label.data);
 }
 
 
@@ -897,24 +944,8 @@ RCircos.Link.Plot<-function(cyto.band, base.positions, link.data, track.num,
 {
 	#	Check chromosome names, Start, and End positions
 	#	********************************************************
-	for(a.row in 1:nrow(link.data)) {
-		if(length(grep("chr", link.data[a.row,1]))==0) 
-		{ link.data[a.row,1] <- paste("chr", link.data[a.row,1], sep=""); }
-		if(length(grep("chr", link.data[a.row,4]))==0) 
-		{ link.data[a.row,4] <- paste("chr", link.data[a.row,4], sep=""); }
-	}
-
-	chromosomes <- unique(cyto.band$Chromosome);
-	chroms <- as.character(unique(link.data[,1]));
-	if(sum(chroms %in% chromosomes) < length(chroms)) { 
-		stop("Error! Some chromosomes not in cyto.band data."); 
-		return (NULL); 
-	}
-	chroms <- as.character(unique(link.data[,4]));
-	if(sum(chroms %in% chromosomes) < length(chroms)) { 
-		stop("Error! Some chromosomes not in cyto.band data."); 
-		return (NULL); 
-	}
+	link.data <- RCircos.Validate.Genomic.Data(link.data, 
+			cyto.band, plot.type="link");
 
 
 	#	Plot position for link track.
