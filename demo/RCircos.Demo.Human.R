@@ -1,4 +1,5 @@
-#  ========================================================================
+# ________________________________________________________________________________________
+# <><RCircos DEMO><RCircos DEMO><RCircos DEMO><RCircos DEMO><RCircos DEMO><RCircos DEMO><>
 #
 #	This demo draw human chromosome ideogram and data tracks for:
 #
@@ -11,216 +12,168 @@
 #	7.	Tile plot
 #	8.	Link lines
 #
-#  ========================================================================
+# ________________________________________________________________________________________
+# <><RCircos DEMO><RCircos DEMO><RCircos DEMO><RCircos DEMO><RCircos DEMO><RCircos DEMO><>
 
 
 RCircos.Demo.Human <- function()
 {
 	#	Load RCircos package and defined parameters
-	#  	*********************************************		
+	#  	_________________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+	
 	library(RCircos);
-	circpar <- RCircos.Initialize.Parameters();
 
 
-	#	Load and processing human cytoband data 
-	#  	*********************************************
+	#	Load human cytoband data 
+	#  	_________________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
 	data(UCSC.HG19.Human.CytoBandIdeogram);
 	cyto.info <- UCSC.HG19.Human.CytoBandIdeogram;
-	cyto.band <- RCircos.Cytoband.Data(cyto.info, 
-			chr.exclude=NULL, circpar);
 
 
-	#	Calculate x and y coordinates for the base position.  
-	#	These coordinates will be used to derive plot 
-	#	positions for all other plot items
-	#  	**********************************************
-	cat("Calculate x and y coordinates for base circle ...\n\n");
-	circle.positions <- RCircos.Base.Plot.Positions(cyto.band, 
-			circpar);
+	#	Setup RCircos core components:
+	#
+	#	1. Chromosome ideogram plot information
+	#	2. x and y coordinates for a circular line and degrees of the
+	#		text rotation at each point
+	#	3. Plot parameters for image plot control
+	#  
+	#	These components will be stored in RCircos environment
+	#
+	#	Function arguments:
+	#
+	#	Chromosome ideogram data loaded above
+	#	Chromosomes need be excluded from cytoinfo
+	#	Number of tracks inside chromosome ideogram
+	#	Number of tracks inside chromosome ideogram
+	#  	_________________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-
-	#	We will plot muttiple tracks. So increse the plot area
-	#	by adjust radius.len from 1.0 to 2.5. Other variables 
-	#	derive from radius.len also need changing.
-	#  	**********************************************
-	radius.len <- 2.5;
-	circpar <- RCircos.Reset.Ideogram.Position(circpar, 
-			radius.len);
-
-
+	RCircos.Set.Core.Components(cyto.info, NULL, 10, 0);
 
 
 	#	Open the graphic device (here a pdf file)
 	#
-	# 	out.file= "RCircos.Demo.Human.png";
-	# 	png(file=out.file, height=10, width=8, unit="in", 
+	# 	png(file="RCircos.Demo.Human.png", height=8, width=8, unit="in", 
 	#		type="cairo", res=300);
 	#
- 	#	out.file= "RCircos.Demo.Human.tif";
- 	#	tiff(file=out.file, height=10, width=8, unit="in", 
+ 	#	tiff(file="RCircos.Demo.Human.tif", height=8, width=8, unit="in", 
 	#		type="cairo", res=300);
-	#
-	#  	**********************************************
+	#  	_________________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
 	cat("Open graphic device and start plot ...\n");
+	pdf(file="RCircos.Demo.Human.pdf", height=8, width=8);
 
-	out.file= "RCircos.Demo.Human.pdf";
-	pdf(file=out.file, height=10, width=8);
-
-	par(mai=c(0.25, 0.25, 0.25, 0.25));
-	plot.new();
-	plot.window(c(-1*circpar$plot.radius, circpar$plot.radius), 
-		c(-1*circpar$plot.radius, circpar$plot.radius+0.25));
+	RCircos.Set.Plot.Area();
 	title("RCircos 2D Track Plot with Human Genome");
 
 
-
-
 	#	Draw chromosome ideogram
-	#  	**********************************************
+	#  	_________________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
 	cat("Draw chromosome ideogram ...\n");
-	RCircos.Chromosome.Ideogram(cyto.band, circle.positions, 
-			circpar);
+	RCircos.Chromosome.Ideogram.Plot();
 
 
+	#	Connectors in first track and gene names in the second track. 
+	#  	_________________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-
-	#	Plot connectors in first track and gene names
-	#	in the second track. 
-	#  	**********************************************
+	cat("Add Gene and connector tracks ...\n");
 	data(RCircos.Gene.Label.Data);
-	label.data <- RCircos.Get.Plot.Data(RCircos.Gene.Label.Data, 
-			cyto.band);
-	if(is.null(label.data)) {  stop("Please check the data!"); }
-
-	#	To avoid overlap of neighbour gene names, reset
-	#	the plot position for gene names. 
-	#	^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-	gene.data <- RCircos.Get.Label.Locations(cyto.band, label.data, 
-			 label.type="text", circpar)
-	conn.data <- data.frame(gene.data$Location, 
-			gene.data$Label.Position);
-	name.col <- 4;
-	direction <- "in";
 
 	track.num <- 1;
-	RCircos.Connector(cyto.band, circle.positions, conn.data, 
-		track.num, direction, circpar);
-
+	direction <- "in";
+	RCircos.Gene.Connector.Plot(RCircos.Gene.Label.Data, 
+			track.num, direction);
+	name.col <- 4;
 	track.num <- 2;
-	RCircos.Gene.Label(circle.positions, gene.data, name.col, 
-			track.num, direction,  circpar);
+	RCircos.Gene.Name.Plot(RCircos.Gene.Label.Data, name.col, 
+			track.num, direction);
 
 
-
-
-	#	Draw Heatmap.  Since some gene names are longer 
+	#	Heatmap plot.  Since some gene names plotted above are longer 
 	#	than one track height, we skip two tracks 
-	#  	**********************************************
+	#  	_________________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
 	cat("Add heatmap track ...\n");
 
 	data(RCircos.Heatmap.Data);
-	expr.data <- RCircos.Get.Plot.Data(RCircos.Heatmap.Data, 
-				cyto.band);
-	if(is.null(expr.data)) {  stop("Please check the data!"); }
-
-	track.num <- 5;	
-	direction <- "in";
 	data.col <- 6;
-	RCircos.Heatmap(cyto.band, circle.positions, expr.data, 
-			data.col, track.num, direction, circpar);
+	track.num <- 5;	
+	RCircos.Heatmap.Plot(RCircos.Heatmap.Data, data.col, track.num, "in");
+			
 
+	#	Scatterplot
+	#  	_________________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-
-
-	#	Scatterplot with DNA copy number variation data
-	#  	**********************************************
 	cat("Add scatterplot track ...\n");
 
 	data(RCircos.Scatter.Data);
-	scatter.data <- RCircos.Get.Plot.Data(RCircos.Scatter.Data, cyto.band);
-	if(is.null(scatter.data)) {  stop("Please check the data!"); }
-
-
+	data.col <- 5;
 	track.num <- 6; 
-	direction <- "in";
-	data.col <- ncol(scatter.data)-1;
-
-	RCircos.ScatterPlot(cyto.band, circle.positions, scatter.data, 
-			data.col, track.num,  direction,  
-			by.fold=1, circpar);
+	RCircos.Scatter.Plot(RCircos.Scatter.Data, data.col, track.num, "in", 1);
 
 
+	#	Line plot.
+	#  	_________________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-	#	Draw Line plot with DNA copy number variation data
-	#  	**********************************************
 	cat("Add line plot track ...\n");
 
 	data(RCircos.Line.Data);
-	line.data <- RCircos.Get.Plot.Data(RCircos.Line.Data, cyto.band);
-
+	data.col <- 5;
 	track.num <- 7;
-	direction <- "in";
-	data.col <- ncol(line.data)-1;
-
-	RCircos.Line.Plot(cyto.band, circle.positions, line.data, data.col, 
-			track.num, direction,  circpar);
+	RCircos.Line.Plot(RCircos.Line.Data, data.col, track.num, "in");
 
 
+	#	Histogram plot
+	#  	_________________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-
-	#	Draw Histogram
-	#  	**********************************************
 	cat("Add histogram track ...\n");
 
 	data(RCircos.Histogram.Data);
-	hist.data <- RCircos.Get.Plot.Data(RCircos.Histogram.Data, 
-			cyto.band);
-
-	track.num <- 8; 
-	direction <- "in";
 	data.col <- 4;
-	RCircos.Histogram(cyto.band, circle.positions, hist.data, data.col, 
-			track.num, direction, circpar);
+	track.num <- 8; 
+	RCircos.Histogram.Plot(RCircos.Histogram.Data, data.col, track.num, "in");
 
 
+	#	Tile plot. Note: tile plot data have chromosome locations and each
+	#	data file is for one track
+	#  	_________________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-
-	#	Draw Tile plot. Note: tile plot data have chromosome 
-	#	locations only and each data file is for one track
-	#  	**********************************************
 	cat("Add tile track ...\n");
 
 	data(RCircos.Tile.Data);
-	tile.data <- RCircos.Get.Plot.Data(RCircos.Tile.Data, cyto.band);
-
 	track.num <- 9;
-	direction <- "in";
-	RCircos.Tile.Plot(cyto.band, circle.positions, tile.data, 
-			track.num, direction,  circpar);
+	RCircos.Tile.Plot(RCircos.Tile.Data, track.num, "in");
 
 
-
-
-	#	Draw Link lines. Note: Link data has only paired 
-	#	chromosome locations in each row an does not
-	#	need extra processing. Also, link lines are always 
-	#	drawn inside of chromosome ideogram.
-	#  	**********************************************
+	#	Link lines. Link data has only paired chromosome locations in
+	#	each row and link lines are always drawn inside of chromosome 
+	#	ideogram.
+	#  	_________________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 	cat("Add link track ...\n");
 	
 	data(RCircos.Link.Data);
 	track.num <- 11;
-	RCircos.Link.Plot(cyto.band, circle.positions, RCircos.Link.Data, 
-			track.num,  by.chromosome=FALSE, 
-			circpar);
-
-
+	RCircos.Link.Plot(RCircos.Link.Data, track.num, FALSE);
 
 
 	#	Close the graphic device and clear memory
-	#  	**********************************************
-	dev.off();
+	#  	_________________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
+	dev.off();
 	cat("R Circos Demo Done ...\n\n");
 	rm(list=ls(all=T));
 }

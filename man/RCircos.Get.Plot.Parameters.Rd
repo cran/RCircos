@@ -1,13 +1,16 @@
-\name{RCircos.List.Parameters}
-\alias{RCircos.List.Parameters}
+\name{RCircos.Get.Plot.Parameters}
+\alias{RCircos.Get.Plot.Parameters}
 \title{
-Print RCircos Parameters to Standard Output
+Get All RCircos Plot Parameters
 }
 \description{
-Display all graphic parameters used by current RCircos session on standard output. RCircos core components must be initialized first.
+Get all parameters used during current RCircos session in order to check and reset plot parameters. RCircos core components must be initialized first.
 }
 \usage{
-RCircos.List.Parameters()
+RCircos.Get.Plot.Parameters()
+}
+\value{
+A list of all parameters used for RCircos plot.
 }
 \author{
 Hongen Zhang
@@ -39,11 +42,11 @@ num.outside <- 0;
        chr.exclude, tracks.inside, tracks.outside);}
 
 
-# List RCircos plot parameters
+# Get RCircos plot parameters
 # __________________________________________________
 # xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-\dontrun{RCircos.List.Parameters();}
+\dontrun{params <- RCircos.Get.Plot.Parameters();}
+\dontrun{params}
 }
 \keyword{ methods }
-

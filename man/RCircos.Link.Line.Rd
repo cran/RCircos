@@ -4,26 +4,23 @@
 Draw A Circos Link Line
 }
 \description{
-Calculate and draw a quandratic Bezire curve between two points with (0,0) as control points. Graphic device must be initialized before drawing.
+Calculate and draw a quandratic Bezire curve between two points with (0,0) as control points. This function is for internal use.
 }
 \usage{
-RCircos.Link.Line(point.locations, point.one, point.two, color)
+RCircos.Link.Line(line.start, line.end, line.color)
 }
 \arguments{
-  \item{point.locations}{
-A data frame returned from RCircos.Base.Plot.Positions(cyto.band, RCircos.Par) containing x- and y-coordinates for a circular line as well as degrees of text rotation at each position.
+  \item{line.start}{
+The position (a point) where the Bezier curve starts.
 }
-  \item{point.one}{
-The first point (start point) of the Bezier curve.
+  \item{line.end}{
+The position (a point) where the Bezier curve ends.
 }
-  \item{point.two}{
-The last point (end point) of the Bezier curve.
-}
-  \item{color}{
-Color for the Bezier curve.
+  \item{line.color}{
+Color for the Bezier curve. Any value that represents a R color.
 }
 }
 \author{
 Hongen Zhang
 }
-\keyword{methods}
+\keyword{ methods }

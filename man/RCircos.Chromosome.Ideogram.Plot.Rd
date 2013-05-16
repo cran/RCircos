@@ -1,13 +1,13 @@
-\name{RCircos.List.Parameters}
-\alias{RCircos.List.Parameters}
+\name{RCircos.Chromosome.Ideogram.Plot}
+\alias{RCircos.Chromosome.Ideogram.Plot}
 \title{
-Print RCircos Parameters to Standard Output
+Draw Chromosome Ideogram
 }
 \description{
-Display all graphic parameters used by current RCircos session on standard output. RCircos core components must be initialized first.
+Draw a circular chromosome ideogram with all or subset of chromosomes, chromosome names, and chromosome highlights. RCircos core components and graphic device must be initialized before drawing.
 }
 \usage{
-RCircos.List.Parameters()
+RCircos.Chromosome.Ideogram.Plot()
 }
 \author{
 Hongen Zhang
@@ -17,7 +17,7 @@ Hongen Zhang
 # __________________________________________________
 # xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-library(RCircos);
+library(RCircos);  
 
 
 # Load human chromosome ideogram
@@ -30,20 +30,21 @@ data(UCSC.HG19.Human.CytoBandIdeogram);
 # Set RCircso core components
 # __________________________________________________
 # xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
 cyto.info <- UCSC.HG19.Human.CytoBandIdeogram;
-chr.exclude <- c("chrX", "chrY");
+chr.exclude <- NULL;
 num.inside <- 5;
 num.outside <- 0;
 \dontrun{RCircos.Set.Core.Components(cyto.info,  
-       chr.exclude, tracks.inside, tracks.outside);}
+	chr.exclude, num.inside, num.outside); }
 
 
-# List RCircos plot parameters
+# Initialize graphic device and plot chromosome  
+# ideogram
 # __________________________________________________
 # xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-\dontrun{RCircos.List.Parameters();}
+\dontrun{RCircos.Set.Plot.Area();}
+\dontrun{RCircos.Chromosome.Ideogram.Plot();}
 }
-\keyword{ methods }
+\keyword{methods}
 

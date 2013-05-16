@@ -1,36 +1,66 @@
 \name{RCircos.Link.Plot}
 \alias{RCircos.Link.Plot}
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-ircos-like Link Line Plot
+Circos-like Link Line Plot
 }
 \description{
-Draw lines(quandratic Bezier curves) between paired genomic positions. Graphic device must be initialize before drawing. Link lines are always in the most inner of data plot area.
+Draw lines (quandratic Bezier curves) between paired genomic positions. RCircos core components and graphic device must be initialize before drawing. Link lines are always in the center of plot area.
 }
 \usage{
-RCircos.Link.Plot(cyto.band, base.positions, link.data, track.num, by.chromosome = FALSE, RCircos.Par)
+RCircos.Link.Plot(link.data, track.num, by.chromosome = FALSE)
 }
 \arguments{
-  \item{cyto.band}{
-A data frame containing plot data for chromosome ideogram returned from RCircos.Cytoband.Data(cyto.info, chr.exclude, RCircos.Par).
-}
-  \item{base.positions}{
-A data frame returned from RCircos.Base.Plot.Positions(cyto.band, RCircos.Par) containing x- and y-coordinates for a circular line as well as degrees of text rotation at each position.
-}
   \item{link.data}{
-A data frame that contains data for links between genomic positions. The first three columns of the data frame are chromosome name, start position, and end position for first genomic position followed by the chromosome name, start, and end position for second genomic position.
+A data frame with paired genomic positions in each row. The first three columns are for chromosome names, start and end position of one genomic position followed by three columns for chromosome names, start and end position of the second genomic position. 
 }
   \item{track.num}{
-Integer, the number of the plot track inside or outside of chromosome ideogram.
+Integer, representing the ordinal number of the plot track where the link lines will start.
 }
   \item{by.chromosome}{
-Boolean, If true, red color will be used for links between positions of same chromosomes and blue color for links between different chromosomes. Otherwise, different colors will be automatically assigned for each line.
-}
-  \item{RCircos.Par}{
-A list returned from RCircos.Initialize.Parameters() containing graphics paramters specific for Circos plot.
+Logic. If true, red color will be used for links between positions of same chromosomes and blue color for links between different chromosomes. Otherwise, different colors will be automatically assigned for each line.
 }
 }
 \author{
 Hongen Zhang
 }
-\keyword{methods}
+\examples{
+# Load RCircos libaray
+# __________________________________________________
+# xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+library(RCircos);
+
+
+# Load human chromosome ideogram and sample data
+# __________________________________________________
+# xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+data(UCSC.HG19.Human.CytoBandIdeogram);
+data(RCircos.Link.Data);
+
+
+# Set RCircso core components
+# __________________________________________________
+# xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+cyto.info <- UCSC.HG19.Human.CytoBandIdeogram;
+chr.exclude <- c("chrX", "chrY");
+num.inside <- 5;
+num.outside <- 0;
+\dontrun{RCircos.Set.Core.Components(cyto.info,  
+            chr.exclude, num.inside, num.outside); }
+
+
+# Initialize graphic device, plot chromosome ideogram
+# and link lines 
+# __________________________________________________
+# xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+\dontrun{RCircos.Set.Plot.Area(); }
+\dontrun{RCircos.Chromosome.Ideogram.Plot(); }
+
+track.num <- 4;
+\dontrun{RCircos.Link.Plot(RCircos.Link.Data,  
+                    track.num, TRUE); }
+}
+\keyword{ methods }

@@ -1,30 +1,28 @@
 \name{RCircos.Validate.Genomic.Data}
 \alias{RCircos.Validate.Genomic.Data}
 \title{
-Validate Input Genomic Data
+Validate Genomic Data for RCircos Plot
 }
 \description{
-Validate Input Genomic Data. Column(s) for chromosome names will be converted to character vectors. Start and end positions will be checked for correct ranges.
+Validate input dataset for correct chromosome names, chromosome start, and chromosome end positions. Chromosome names will be converted to character vectors if they are factor variables. This function is for internal use.
 }
 \usage{
-RCircos.Validate.Genomic.Data(genomic.data, cyto.band, plot.type = c("plot", "link"))
+RCircos.Validate.Genomic.Data(genomic.data,  
+              plot.type = c("plot", "link"))
 }
 \arguments{
   \item{genomic.data}{
-A data frame with the first three columns as chromosome name, start and end position followed by data values for one or more samples.
-}
-  \item{cyto.band}{
-A data frame containing Circos plot data for chromosome ideogram returned from RCircos.Cytoband.Data(cyto.info, chr.exclude, RCircos.Par).
+A data frame with the first three columns as chromosome names, start and end positions. Following columns may be another set of chromosome names, start and end positions then zero or more data columns.
 }
   \item{plot.type}{
 Character vector either "plot" for dataset with one set of genomic position data or "link" for dataset with paired genomic position data . 
 }
 }
 \value{
-A data frame with same dimmensions of input data.
+The validated data frame.
 }
 \author{
 Hongen Zhang
 }
-\keyword{methods}
+\keyword{ methods }
 

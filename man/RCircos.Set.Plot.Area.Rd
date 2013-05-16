@@ -1,13 +1,13 @@
-\name{RCircos.List.Parameters}
-\alias{RCircos.List.Parameters}
+\name{RCircos.Set.Plot.Area}
+\alias{RCircos.Set.Plot.Area}
 \title{
-Print RCircos Parameters to Standard Output
+Setup Plot Area for RCircos Plot
 }
 \description{
-Display all graphic parameters used by current RCircos session on standard output. RCircos core components must be initialized first.
+Open an new window for plotting. RCircos core components must be initialized before call this function. All four margins are set to 0.25 and window size are set to plot.radius in RCircos parameters. This function is optional and could be replaced by call par(), plot.new(), and plot.window() if users want control the plot window by themselves.
 }
 \usage{
-RCircos.List.Parameters()
+RCircos.Set.Plot.Area()
 }
 \author{
 Hongen Zhang
@@ -25,25 +25,24 @@ library(RCircos);
 # xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 data(UCSC.HG19.Human.CytoBandIdeogram);
+cyto.info <- UCSC.HG19.Human.CytoBandIdeogram;
 
 
 # Set RCircso core components
 # __________________________________________________
 # xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-cyto.info <- UCSC.HG19.Human.CytoBandIdeogram;
 chr.exclude <- c("chrX", "chrY");
-num.inside <- 5;
-num.outside <- 0;
+tracks.inside <- 5;
+tracks.outside <- 0;
 \dontrun{RCircos.Set.Core.Components(cyto.info,  
-       chr.exclude, tracks.inside, tracks.outside);}
+      chr.exclude, tracks.inside, tracks.outside); }
 
 
-# List RCircos plot parameters
+# Set plot area, i.e., initialize graphic device 
 # __________________________________________________
 # xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-\dontrun{RCircos.List.Parameters();}
+\dontrun{RCircos.Set.Plot.Area(); }
 }
 \keyword{ methods }
-
