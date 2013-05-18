@@ -1,29 +1,26 @@
 \name{RCircos.Data.Point}
 \alias{RCircos.Data.Point}
 \title{
-Convert Genomic Position to Index of Circos Plot Position
+Convert a Genomic Position to an Index of Circos Plot Position
 }
 \description{
-Calculate the index of Circos plot positions (a set of x- and y-coordinates for a circular line) for a genomic position (chromosome and start position).
+Calculate the index of Circos plot positions (a set of x- and y-coordinates for a circular line) for a genomic position (chromosome name and start  position). This function is for internal use only.
 }
 \usage{
-RCircos.Data.Point(cyto.band, chromosome, start)
+RCircos.Data.Point(chromosome, start)
 }
 \arguments{
-  \item{cyto.band}{
-A data frame returned from RCircos.Cytoband.Data(cyto.info, chr.exclude, RCircos.Par) and containing plot data for chromosome ideogram.
-}
   \item{chromosome}{
-Character vector, a chromosome name with  or without prefix of "chr".
+Character vector, a chromosome name with prefix of "chr", e.g., "chr1".
 }
   \item{start}{
 Integer, start position of a genomic interval (e.g, a gene or a band) on the chromosome.
 }
 }
 \value{
-An integer representing the index of Circos plot positions.
+An integer representing the index of RCircos plot positions.
 }
 \author{
 Hongen Zhang
 }
-\keyword{methods}
+\keyword{ methods }

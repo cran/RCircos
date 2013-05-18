@@ -12,77 +12,67 @@
 
 RCircos.Line.Plot.Demo<-function()
 {
-	#	Load R source files and define parameters
-	#	*********************************************
+	#	Load RCircos library
+	#  	_________________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+	
 	library(RCircos);
-	circpar <- RCircos.Initialize.Parameters();	
-	RCircos.List.Parameters(circpar)
 
 
-	#	Read chromosome cytoband data for the species 
-	#	defined in R.Circos.Source.R file
-	#	********************************************
+	#	Load human cytoband data and gene expression data
+	#  	_________________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+	data(RCircos.Line.Data);
 	data(UCSC.HG19.Human.CytoBandIdeogram);
 	cyto.info <- UCSC.HG19.Human.CytoBandIdeogram;
-	cyto.band <- RCircos.Cytoband.Data(cyto.info, 
-			chr.exclude=NULL, circpar);
 
 
-	#	Calculate x and y values for the base circle plot
-	#	********************************************
-	circle.positions <- RCircos.Base.Plot.Positions(cyto.band, 
-			circpar);
+	#	Setup RCircos core components:
+	#  	_________________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+	RCircos.Set.Core.Components(cyto.info, NULL, 10, 0);
 
 
 
-	#	Load line plot data. The first four column of data
-	#	file have to be chromosome, chromStart, and  
-	#	chromEnd, followed by a column of gene names. 
-	#	Note: the hist.data will have one more column 
-	#	than the original RCircos.Histogram.Data.
-	#	********************************************
-	data(RCircos.Line.Data);
-	line.data <- RCircos.Get.Plot.Data(RCircos.Line.Data, cyto.band);
-	if(is.null(line.data)) {  stop("Please check the data!"); }
-
-
-	#	Open the graphic device (here is png/pdf file)
-	#
-	#	out.file= "RCircos.Line.Plot.Demo.png";
-	#	png(file=out.file, height=9, width=8, unit="in", 
-	#		type="cairo", res=300);
-	#
-	#	********************************************
+	#	Open the graphic device (here a pdf file)
+	#  	_________________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+	
 	out.file <- "RCircos.Line.Plot.Demo.pdf";
-	pdf(file=out.file, height=9, width=8);
+	pdf(file=out.file, height=8, width=8);
 
-	par(mai=c(0.5, 0.5, 0.5, 0.5));
-	plot.new();
-	plot.window(c(-1*circpar$plot.radius, circpar$plot.radius), 
-		c(-1*circpar$plot.radius, circpar$plot.radius));
-
+	RCircos.Set.Plot.Area();
+	title("RCircos Line Plot Demo");
 
 
 	#	Draw chromosome ideogram
-	#	********************************************
-	RCircos.Chromosome.Ideogram(cyto.band, circle.positions, 
-			circpar);
+	#  	_________________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+	cat("Draw chromosome ideogram ...\n");
+
+	RCircos.Chromosome.Ideogram.Plot();
 	title("RCircos Line Plot Demo");
 
 
 	#	Plot lines
-	#	********************************************
+	#  	_________________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
 	data.col <- 5; 
 	track.num <- 1;
 	direction <- "in";
-	RCircos.Line.Plot(cyto.band, circle.positions,  line.data, 
-			data.col, track.num, direction, circpar);
+	RCircos.Line.Plot(RCircos.Line.Data, data.col, track.num, "in");
 
 
+	#	Close the graphic device and clear memory
+	#  	_________________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-	#	Close the graphic device
-	#	********************************************
-	dev.off();	print("RCircos Line Plot Demo Done!");
+	dev.off();
+	print("RCircos Line Plot Demo Done!");
 
 	rm(list=ls(all=T));
 }

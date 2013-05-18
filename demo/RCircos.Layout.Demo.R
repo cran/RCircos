@@ -1,105 +1,103 @@
+# ________________________________________________________________________________________
+# <><RCircos DEMO><RCircos DEMO><RCircos DEMO><RCircos DEMO><RCircos DEMO><RCircos DEMO><>
 #
-#	This demo draw chromosome ideogram with padding between
-#	chromosomes, highlights, chromosome names, and three empty 
-#	tracks inside and outside of chromosome ideogram.
+#	This demo draw chromosome ideogram with padding between chromosomes, highlights, 
+#	chromosome names, and three empty tracks inside and outside of chromosome ideogram.
 #
 #	Usage:
 #
 #	library(RCircos);
 #	demo("RCircos.Layout.Demo");
-#
-#	========================================================
+# ________________________________________________________________________________________
+# <><RCircos DEMO><RCircos DEMO><RCircos DEMO><RCircos DEMO><RCircos DEMO><RCircos DEMO><>
 
 
 RCircos.Layout.Demo<-function()
 {
-	#	Load R source files and define parameters
-	#	*********************************************
+	#	Load RCircos library
+	#  	_________________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+	
 	library(RCircos);
-	circpar <- RCircos.Initialize.Parameters();	
-	RCircos.List.Parameters(circpar)
 
 
-	#	Read chromosome cytoband data for the species 
-	#	defined in R.Circos.Source.R file
-	#	********************************************
+	#	Load human cytoband data 
+	#  	_________________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
 	data(UCSC.HG19.Human.CytoBandIdeogram);
 	cyto.info <- UCSC.HG19.Human.CytoBandIdeogram;
-	cyto.band <- RCircos.Cytoband.Data(cyto.info, 
-			chr.exclude=NULL, circpar);
 
 
-	#	Calculate x and y values for the base circle plot
-	#	********************************************
-	circle.positions <- RCircos.Base.Plot.Positions(cyto.band, 
-			circpar);
+	#	Setup RCircos core components:
+	#  	_________________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-
-	#	Modify circpar$plot.radius here since there will
-	#	be plot tracks outside of chromosome ideogram
-	#	********************************************
-	circpar$plot.radius <- 2;
+	RCircos.Set.Core.Components(cyto.info, NULL, 5, 5);
 
 
 
-	#	Open the graphic device (here is png/pdf file)
-	#
-	#	out.file= "RCircos.Layout.Demo.png";
-	#	png(file=out.file, height=9, width=8, unit="in", 
-	#		type="cairo", res=300);
-	#
-	#	********************************************
+	#	Open the graphic device (here a pdf file)
+	#  	_________________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+	
 	out.file <- "RCircos.Layout.Demo.pdf";
-	pdf(file=out.file, height=9, width=8);
+	pdf(file=out.file, height=8, width=8);
 
-	par(mai=c(0.5, 0.5, 0.5, 0.5));
-	plot.new();
-	plot.window(c(-1*circpar$plot.radius, circpar$plot.radius), 
-		c(-1*circpar$plot.radius, circpar$plot.radius));
-
+	RCircos.Set.Plot.Area();
 
 
 	#	Draw chromosome ideogram
-	#	********************************************
-	RCircos.Chromosome.Ideogram(cyto.band, circle.positions, 
-			circpar);
+	#  	_________________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+	cat("Draw chromosome ideogram ...\n");
+
+	RCircos.Chromosome.Ideogram.Plot();
 	title("R Circos Layout Demo");
 
 
 
-	#	Marking plot areas both inside and outside of
-	#	chromosome ideogram ( 3 for each)
-	#	********************************************
+	#	Marking plot areas both inside and outside of chromosome ideogram
+	#	( 3 for each)
+	#  	_________________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 	total.track <- 3;
 	subtrack <- 5;
-	one.track <- circpar$track.height + circpar$track.padding;
 
 
 	#	Outside of chromosome ideogram
-	#	********************************************
+	#  	_________________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+	RCircos.Par <- RCircos.Get.Plot.Parameters();
+	one.track <- RCircos.Par$track.height + RCircos.Par$track.padding;
+
 	for(a.track in 1:total.track)
 	{	
-		in.pos    <- circpar$track.out.start  + (a.track-1)*one.track;
-		out.pos <-in.pos + circpar$track.height;
-		RCircos.Track.Outline(cyto.band, circle.positions, 
-			out.pos, in.pos, subtrack, circpar);
+		in.pos    <- RCircos.Par$track.out.start  + (a.track-1)*one.track;
+		out.pos <- in.pos + RCircos.Par$track.height;
+		RCircos.Track.Outline(out.pos, in.pos, subtrack);
 	}
 
 	#	Inside of chromosome ideogram
-	#	********************************************
+	#  	_________________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
 	for(a.track in 1:total.track)
 	{
-		out.pos <- circpar$track.in.start  - (a.track-1)*one.track;
-		in.pos    <- out.pos - circpar$track.height;
-		RCircos.Track.Outline(cyto.band, circle.positions, 
-			out.pos, in.pos, subtrack, circpar);
+		out.pos <- RCircos.Par$track.in.start  - (a.track-1)*one.track;
+		in.pos    <- out.pos - RCircos.Par$track.height;
+		RCircos.Track.Outline(out.pos, in.pos, subtrack);
 	}
 
 
+	#	Close the graphic device and clear memory
+	#  	_________________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-	#	Close the graphic device
-	#	********************************************
-	dev.off();	print("RCircos Layout Demo Done!");
+	dev.off();
+	print("RCircos Layout Demo Done!");
 
 	rm(list=ls(all=T));
 }

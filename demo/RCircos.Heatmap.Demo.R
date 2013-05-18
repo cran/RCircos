@@ -1,99 +1,81 @@
 #
-#	This demo draw chromosome ideogram with padding between
-#	chromosomes, highlights, chromosome names, and heatmap 
-#	with gene expression data.
+#	This demo draw chromosome ideogram with padding between chromosomes, 
+#	highlights, chromosome names, and heatmap with gene expression data.
 #
 #	Usage:
 #
 #	library(RCircos);
 #	demo("RCircos.Heatmap.Demo");
 #
-#	========================================================
+#
+# ________________________________________________________________________________________
+# <><RCircos DEMO><RCircos DEMO><RCircos DEMO><RCircos DEMO><RCircos DEMO><RCircos DEMO><>
 
 
 RCircos.Heatmap.Demo<-function()
 {
-	#	Load R source files and define parameters
-	#	*********************************************
+	#	Load RCircos library
+	#  	_________________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+	
 	library(RCircos);
-	circpar <- RCircos.Initialize.Parameters();	
-	RCircos.List.Parameters(circpar);
 
 
-	#	Read chromosome cytoband data for the species 
-	#	defined in R.Circos.Source.R file
-	#	********************************************
+	#	Load human cytoband data and gene expression data
+	#  	_________________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+	data(RCircos.Heatmap.Data);
 	data(UCSC.HG19.Human.CytoBandIdeogram);
 	cyto.info <- UCSC.HG19.Human.CytoBandIdeogram;
-	cyto.band <- RCircos.Cytoband.Data(cyto.info, 
-			chr.exclude=NULL, circpar);
 
 
-	#	Calculate x and y values for the base circle plot
-	#	********************************************
-	circle.positions <- RCircos.Base.Plot.Positions(cyto.band, 
-			circpar);
+	#	Setup RCircos core components:
+	#  	_________________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+	RCircos.Set.Core.Components(cyto.info, NULL, 10, 0);
 
 
-
-	#	Load gene expression data. The first four column of
-	#	data file have to be chromosome, chromStart, and 
-	#	chromEnd, followed by a column of gene names. 
-	#	Note: the expr.data will have one more column than
-	#	RCircos.Heatmap.Data.
-	#	********************************************
-	data(RCircos.Heatmap.Data);
-	expr.data <- RCircos.Get.Plot.Data(RCircos.Heatmap.Data, 
-				cyto.band);
-	if(is.null(expr.data)) {  stop("Please check the data!"); }
-
-
-	#	Open the graphic device (here is png/pdf file)
-	#	********************************************
-	#	out.file= "RCircos.Heatmap.Demo.png";
-	#	png(file=out.file, height=9, width=8, unit="in", 
-	#			type="cairo", res=300);
+	#	Open the graphic device (here a pdf file)
+	#  	_________________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 	
 	out.file <- "RCircos.Heatmap.Demo.pdf";
-	pdf(file=out.file, height=9, width=8);
+	pdf(file=out.file, height=8, width=8);
 
-	par(mai=c(0.5, 0.5, 0.5, 0.5));
-	plot.new();
-	plot.window(c(-1*circpar$plot.radius, circpar$plot.radius), 
-		c(-1*circpar$plot.radius, circpar$plot.radius));
-
+	RCircos.Set.Plot.Area();
 
 
 	#	Draw chromosome ideogram
-	#	********************************************
-	RCircos.Chromosome.Ideogram(cyto.band, circle.positions, 
-			circpar);
-	title("RCircos Heatmap Demo");
+	#  	_________________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+	cat("Draw chromosome ideogram ...\n");
+
+	RCircos.Chromosome.Ideogram.Plot();
+	title("RCircos Heatmap Plot Demo");
 
 
 
-	#	Marking plot areas both inside and outside of
-	#	chromosome ideogram ( 5 for each)
-	#	********************************************
+	# 	Plot five tracks of heatmap
+	#  	_________________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
 	total.track <- 5;
-
-
-
-	#	plot heatmap Inside of chromosome ideogram
-	#	********************************************
-	direction <- "in";
 	for(a.track in 1:total.track)
 	{
 		data.col <- a.track + 4;
-		RCircos.Heatmap(cyto.band, circle.positions, 
-			expr.data, data.col, a.track, 
-			direction,  circpar);
+		RCircos.Heatmap.Plot(RCircos.Heatmap.Data, data.col, a.track, "in");
 	}
 
 
 	#	Close the graphic device
-	#	********************************************
-	dev.off();	print("RCircos Heatmap demo done!");
+	#  	_________________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+	dev.off();	
+	cat("RCircos Heatmap demo done!\n");
 
 	rm(list=ls(all=T));
 }

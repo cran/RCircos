@@ -1,86 +1,80 @@
+# ________________________________________________________________________________________
+# <><RCircos DEMO><RCircos DEMO><RCircos DEMO><RCircos DEMO><RCircos DEMO><RCircos DEMO><>
 #
-#	This demo draw chromosome ideogram with padding between
-#	chromosomes, highlights, chromosome names, and tile plot. 
+#	This demo draw chromosome ideogram with padding between chromosomes, highlights, 
+#	chromosome names, and tile plot. 
 #
 #	Usage:
 #
 #	library(RCircos);
 #	demo("RCircos.Tile.Plot.Demo");
-#
-#	========================================================
+# ________________________________________________________________________________________
+# <><RCircos DEMO><RCircos DEMO><RCircos DEMO><RCircos DEMO><RCircos DEMO><RCircos DEMO><>
 
 
 RCircos.Tile.Plot.Demo<-function()
 {
-	#	Load R source files and define parameters
-	#	*********************************************
+	#	Load RCircos library
+	#  	_________________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+	
 	library(RCircos);
-	circpar <- RCircos.Initialize.Parameters();	
-	RCircos.List.Parameters(circpar)
 
 
-	#	Read chromosome cytoband data for the species 
-	#	defined in R.Circos.Source.R file
-	#	********************************************
+	#	Load human cytoband data and gene expression data
+	#  	_________________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+	data(RCircos.Tile.Data);
 	data(UCSC.HG19.Human.CytoBandIdeogram);
 	cyto.info <- UCSC.HG19.Human.CytoBandIdeogram;
-	cyto.band <- RCircos.Cytoband.Data(cyto.info, 
-			chr.exclude=NULL, circpar);
 
 
-	#	Calculate x and y values for the base circle plot
-	#	********************************************
-	circle.positions <- RCircos.Base.Plot.Positions(cyto.band, 
-			circpar);
+	#	Setup RCircos core components:
+	#  	_________________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+	RCircos.Set.Core.Components(cyto.info, NULL, 10, 0);
 
 
+	#	Open the graphic device (here a pdf file)
+	#  	_________________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-	#	Load tile plot data. Tile data are genomic positions
-	#	only in the order of chromosome, chromStart, and  
-	#	chromEnd. Each row is for one tile.
-	#	********************************************
-	data(RCircos.Tile.Data);
-	tile.data <- RCircos.Get.Plot.Data(RCircos.Tile.Data, cyto.band);
-	if(is.null(tile.data)) {  stop("Please check the data!"); }
-
-
-
-	#	Open the graphic device (here is png/pdf file)
-	#
-	#	out.file= "RCircos.Tile.Plot.Demo.png";
-	#	png(file=out.file, height=9, width=8, unit="in", 
-	#		type="cairo", res=300);
-	#
-	#	********************************************
 	out.file <- "RCircos.Tile.Plot.Demo.pdf";
-	pdf(file=out.file, height=9, width=8);
+	pdf(file=out.file, height=8, width=8);
 
-	par(mai=c(0.5, 0.5, 0.5, 0.5));
-	plot.new();
-	plot.window(c(-1*circpar$plot.radius, circpar$plot.radius), 
-		c(-1*circpar$plot.radius, circpar$plot.radius));
-
+	RCircos.Set.Plot.Area();
 
 
 	#	Draw chromosome ideogram
-	#	********************************************
-	RCircos.Chromosome.Ideogram(cyto.band, circle.positions, 
-			circpar);
-	title("RCircos.Tile.Plot.Demo");
+	#  	_________________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+	cat("Draw chromosome ideogram ...\n");
+
+	RCircos.Chromosome.Ideogram.Plot();
+	title("RCircos Tile Plot Demo");
 
 
-	#	Plot tiles. 
-	#	********************************************
-	track.num <- 1;
-	direction <- "in";
-	RCircos.Tile.Plot(cyto.band, circle.positions,  tile.data, 
-			track.num, direction, circpar);
+	#	Tile plot. Note: tile plot data have chromosome locations only and
+	#	each data file is for one track
+	#  	_________________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+	cat("Add tile track ...\n");
+
+	track.num <- 9;
+	RCircos.Tile.Plot(RCircos.Tile.Data, track.num, "in");
 
 
 
-	#	Close the graphic device
-	#	********************************************
-	dev.off();	print("RCircos Tile Plot Demo Done!");
+	#	Close the graphic device and clear memory
+	#  	_________________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+	dev.off();
+	print("RCircos Tile Plot Demo Done!");
 
 	rm(list=ls(all=T));
 }

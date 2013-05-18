@@ -1,20 +1,23 @@
-\name{RCircos.Tile.Plot}
-\alias{RCircos.Tile.Plot}
+\name{RCircos.Heatmap.Plot}
+\alias{RCircos.Heatmap.Plot}
 \title{
-Circos-like Tile Plot
+Circos-like Heamap Plot
 }
 \description{
-Draw one track of Tiles. RCircos core components and graphics device must be initialized before drawing.
+Draw one track of heatmap. RCircos core components and graphic device must be initialized before drawing.
 }
 \usage{
-RCircos.Tile.Plot(tile.data, track.num, side)
+RCircos.Heatmap.Plot(heatmap.data, data.col, track.num, side)
 }
 \arguments{
-  \item{tile.data}{
-A data frame with three columns as chromosome names, start position and end position of each data point. Columns for data values are optional.
+  \item{heatmap.data}{
+A data frame with the first three columns as chromosome names, start position and end position of each data point followed by data values for one or more samples.
+}
+  \item{data.col}{
+Integer, representing the ordinal number of the column in input data set that contains the data to be plotted.
 }
   \item{track.num}{
-Integer, representing the ordinal number of the plot track where the data will be plotted.
+Integer, representing the ordinal number of the plot track where the heatmap will be plotted.
 }
   \item{side}{
 Character vector, either "in" or "out", representing the position related to chromosome ideogram.
@@ -31,12 +34,12 @@ Hongen Zhang
 library(RCircos);
 
 
-# Load human chromosome ideogram
+# Load human chromosome ideogram and sample data
 # __________________________________________________
 # xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 data(UCSC.HG19.Human.CytoBandIdeogram);
-cyto.info <- UCSC.HG19.Human.CytoBandIdeogram;
+data(RCircos.Heatmap.Data);
 
 
 # Set RCircso core components
@@ -45,31 +48,24 @@ cyto.info <- UCSC.HG19.Human.CytoBandIdeogram;
 
 cyto.info <- UCSC.HG19.Human.CytoBandIdeogram;
 chr.exclude <- c("chrX", "chrY");
-tracks.inside <- 5;
-tracks.outside <- 0;
+num.inside <- 5;
+num.outside <- 0;
 \dontrun{RCircos.Set.Core.Components(cyto.info,  
-            chr.exclude, num.inside, num.outside); }
+             chr.exclude, num.inside, num.outside);}
 
 
-
-# Initialize graphic device and plot chromosome  
-# ideogram
+# Initialize graphic device, plot chromosome ideogram
+# and one heatmap track
 # __________________________________________________
 # xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 \dontrun{RCircos.Set.Plot.Area(); }
 \dontrun{RCircos.Chromosome.Ideogram.Plot(); }
 
-
-# Load tile data and plot one track of tiles  
-# __________________________________________________
-# xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
-data(RCircos.Tile.Data);
+data.col <- 5
 track.num <- 4;
 side <- "in";
-\dontrun{RCircos.Tile.Plot(RCircos.Tile.Data,  
-                         track.num, side); }
+\dontrun{RCircos.Heatmap.Plot(RCircos.Heatmap.Data,  
+                   data.col, track.num, side); }
 }
 \keyword{ methods }
-

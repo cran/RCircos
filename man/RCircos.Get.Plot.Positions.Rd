@@ -1,13 +1,16 @@
-\name{RCircos.List.Parameters}
-\alias{RCircos.List.Parameters}
+\name{RCircos.Get.Plot.Positions}
+\alias{RCircos.Get.Plot.Positions}
 \title{
-Print RCircos Parameters to Standard Output
+Get RCircos Plot Position Object
 }
 \description{
-Display all graphic parameters used by current RCircos session on standard output. RCircos core components must be initialized first.
+Get the data frame of base plot positions which are used to derive all other positions of RCircos plot. RCircos core components must be initialized first. This function is mainly for internal use.
 }
 \usage{
-RCircos.List.Parameters()
+RCircos.Get.Plot.Positions()
+}
+\value{
+A data frame with three columns for x, and y coordinates of a circular line with radius of 1 as well as the degrees used for text rotation at each point of the positions. 
 }
 \author{
 Hongen Zhang
@@ -39,11 +42,11 @@ num.outside <- 0;
        chr.exclude, tracks.inside, tracks.outside);}
 
 
-# List RCircos plot parameters
+# Get RCircos base plot positions
 # __________________________________________________
 # xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-\dontrun{RCircos.List.Parameters();}
+\dontrun{positions <- RCircos.Get.Plot.Positions();}
+\dontrun{head(positions);}
 }
 \keyword{ methods }
-
