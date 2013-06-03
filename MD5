@@ -1,4 +1,4 @@
-a09bdfc6d864cc0927346a4e703c2cd5 *DESCRIPTION
+b093c8946cc9014ee4b87ca181250c11 *DESCRIPTION
 8b54e5a89fbda3af5e077053d40bec76 *NAMESPACE
 7348e43209c933715cd28901f87d3289 *R/RCircos.R
 a671a7d7b65642cfba387b2b5322d675 *data/RCircos.Gene.Label.Data.RData
@@ -24,8 +24,10 @@ bdaee471cae829c4b3f29c30ec098358 *demo/RCircos.Demo.Mouse.And.Rat.R
 498857c5c35d1a0532b35952a5c8ef6a *demo/RCircos.Link.Plot.Demo.R
 0a638310ba30e536a8bf7119c4443189 *demo/RCircos.Scatter.Plot.Demo.R
 a0caf3b855303b0cc65a8ed7e1d66d72 *demo/RCircos.Tile.Plot.Demo.R
-fcc858974f663691aec3d06f34dcfb39 *inst/doc/RCircos-manual.pdf
-5a932ae47689693ffaa79f233eff04b3 *inst/doc/RCircos.pdf
+874c85671ec53d3edf15f03b4468c0bc *inst/doc/RCircos-manual.pdf
+6bd10ebc0b770606155026cf6e5fcda4 *inst/doc/Using_RCircos.R
+e9de7fcdf3ee37f0a072a3b48049ecfe *inst/doc/Using_RCircos.Rnw
+d498d032e383c687cc83b7341a351219 *inst/doc/Using_RCircos.pdf
 9d68e2118d77d093036deb3dd6d41b41 *man/RCircos-package.Rd
 f7ecd47e4fcf3e59d2d02b30770cac24 *man/RCircos.Chromosome.Ideogram.Plot.Rd
 418ea8659ddbb652d94aec563873e507 *man/RCircos.Data.Point.Rd

@@ -1,0 +1,5 @@
+%\VignetteIndexEntry{Using_RCircos}
+\documentclass{article}
+\begin{document}
+%This is a dummy document which exists soley to index the Using_RCircos.pdf file in this folder
+\end{document}
