@@ -2,7 +2,7 @@
 \alias{RCircos.Scatter.Data}
 \docType{data}
 \title{
-Sample Data for Circos Scatter Plot 
+Sample Data for RCircos Scatter Plot 
 }
 \description{
 A data frame with the first three columns as chromosome name, start and end position followed by columns of DNA copy number variant data (num.mark and seg.mean). 

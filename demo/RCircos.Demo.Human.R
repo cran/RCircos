@@ -16,8 +16,7 @@
 # <><RCircos DEMO><RCircos DEMO><RCircos DEMO><RCircos DEMO><RCircos DEMO><RCircos DEMO><>
 
 
-RCircos.Demo.Human <- function()
-{
+
 	#	Load RCircos package and defined parameters
 	#  	_________________________________________________________________
 	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -25,12 +24,13 @@ RCircos.Demo.Human <- function()
 	library(RCircos);
 
 
+
 	#	Load human cytoband data 
 	#  	_________________________________________________________________
 	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 	data(UCSC.HG19.Human.CytoBandIdeogram);
-	cyto.info <- UCSC.HG19.Human.CytoBandIdeogram;
+	hg19.cyto <- UCSC.HG19.Human.CytoBandIdeogram;
 
 
 	#	Setup RCircos core components:
@@ -51,7 +51,9 @@ RCircos.Demo.Human <- function()
 	#  	_________________________________________________________________
 	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-	RCircos.Set.Core.Components(cyto.info, NULL, 10, 0);
+	RCircos.Set.Core.Components(cyto.info=hg19.cyto, chr.exclude=NULL, 
+			tracks.inside=10, tracks.outside=0);
+
 
 
 	#	Open the graphic device (here a pdf file)
@@ -71,12 +73,14 @@ RCircos.Demo.Human <- function()
 	title("RCircos 2D Track Plot with Human Genome");
 
 
+
 	#	Draw chromosome ideogram
 	#  	_________________________________________________________________
 	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 	cat("Draw chromosome ideogram ...\n");
 	RCircos.Chromosome.Ideogram.Plot();
+
 
 
 	#	Connectors in first track and gene names in the second track. 
@@ -86,14 +90,10 @@ RCircos.Demo.Human <- function()
 	cat("Add Gene and connector tracks ...\n");
 	data(RCircos.Gene.Label.Data);
 
-	track.num <- 1;
-	direction <- "in";
-	RCircos.Gene.Connector.Plot(RCircos.Gene.Label.Data, 
-			track.num, direction);
-	name.col <- 4;
-	track.num <- 2;
-	RCircos.Gene.Name.Plot(RCircos.Gene.Label.Data, name.col, 
-			track.num, direction);
+	RCircos.Gene.Connector.Plot(genomic.data=RCircos.Gene.Label.Data, 
+			track.num=1, side="in");
+	RCircos.Gene.Name.Plot(gene.data=RCircos.Gene.Label.Data, name.col=4, 
+			track.num=2, side="in");
 
 
 	#	Heatmap plot.  Since some gene names plotted above are longer 
@@ -104,10 +104,10 @@ RCircos.Demo.Human <- function()
 	cat("Add heatmap track ...\n");
 
 	data(RCircos.Heatmap.Data);
-	data.col <- 6;
-	track.num <- 5;	
-	RCircos.Heatmap.Plot(RCircos.Heatmap.Data, data.col, track.num, "in");
-			
+	RCircos.Heatmap.Plot(heatmap.data=RCircos.Heatmap.Data, data.col=6, 
+			track.num=5, side="in");
+	
+		
 
 	#	Scatterplot
 	#  	_________________________________________________________________
@@ -116,9 +116,9 @@ RCircos.Demo.Human <- function()
 	cat("Add scatterplot track ...\n");
 
 	data(RCircos.Scatter.Data);
-	data.col <- 5;
-	track.num <- 6; 
-	RCircos.Scatter.Plot(RCircos.Scatter.Data, data.col, track.num, "in", 1);
+	RCircos.Scatter.Plot(scatter.data=RCircos.Scatter.Data, data.col=5, 
+			track.num=6, side="in", by.fold=1);
+
 
 
 	#	Line plot.
@@ -128,9 +128,9 @@ RCircos.Demo.Human <- function()
 	cat("Add line plot track ...\n");
 
 	data(RCircos.Line.Data);
-	data.col <- 5;
-	track.num <- 7;
-	RCircos.Line.Plot(RCircos.Line.Data, data.col, track.num, "in");
+	RCircos.Line.Plot(line.data=RCircos.Line.Data, data.col=5, 
+			track.num=7, side="in");
+
 
 
 	#	Histogram plot
@@ -140,9 +140,9 @@ RCircos.Demo.Human <- function()
 	cat("Add histogram track ...\n");
 
 	data(RCircos.Histogram.Data);
-	data.col <- 4;
-	track.num <- 8; 
-	RCircos.Histogram.Plot(RCircos.Histogram.Data, data.col, track.num, "in");
+	RCircos.Histogram.Plot(hist.data=RCircos.Histogram.Data, data.col=4, 
+			track.num=8, side="in");
+
 
 
 	#	Tile plot. Note: tile plot data have chromosome locations and each
@@ -153,8 +153,8 @@ RCircos.Demo.Human <- function()
 	cat("Add tile track ...\n");
 
 	data(RCircos.Tile.Data);
-	track.num <- 9;
-	RCircos.Tile.Plot(RCircos.Tile.Data, track.num, "in");
+	RCircos.Tile.Plot(tile.data=RCircos.Tile.Data, track.num=9, side="in");
+
 
 
 	#	Link lines. Link data has only paired chromosome locations in
@@ -162,11 +162,27 @@ RCircos.Demo.Human <- function()
 	#	ideogram.
 	#  	_________________________________________________________________
 	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
 	cat("Add link track ...\n");
 	
 	data(RCircos.Link.Data);
-	track.num <- 11;
-	RCircos.Link.Plot(RCircos.Link.Data, track.num, FALSE);
+	RCircos.Link.Plot(link.data=RCircos.Link.Data, track.num=11, 
+				by.chromosome=FALSE);
+
+
+	
+	#	Add ribbon link to the center of plot area (link lines).
+	#  	_________________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+	cat("Add ribbons to link track ...\n");
+	
+	data(RCircos.Ribbon.Data);
+	RCircos.Ribbon.Plot(ribbon.data=RCircos.Ribbon.Data, track.num=11, 
+		by.chromosome=FALSE, twist=FALSE);
+
+
+
 
 
 	#	Close the graphic device and clear memory
@@ -176,10 +192,6 @@ RCircos.Demo.Human <- function()
 	dev.off();
 	cat("R Circos Demo Done ...\n\n");
 	rm(list=ls(all=T));
-}
-
-
-RCircos.Demo.Human();
 
 
 

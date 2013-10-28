@@ -7,8 +7,7 @@ Circos-like Scatter Plot
 Draw one track of scatter plot. RCircos core components and graphics device must be initialized before drawing.
 }
 \usage{
-RCircos.Scatter.Plot(scatter.data, data.col, track.num,   
-                                     side, by.fold = 0)
+RCircos.Scatter.Plot(scatter.data, data.col, track.num, side, by.fold = 0)
 }
 \arguments{
   \item{scatter.data}{

@@ -7,8 +7,7 @@ Validate Genomic Data for RCircos Plot
 Validate input dataset for correct chromosome names, chromosome start, and chromosome end positions. Chromosome names will be converted to character vectors if they are factor variables. This function is for internal use.
 }
 \usage{
-RCircos.Validate.Genomic.Data(genomic.data,  
-              plot.type = c("plot", "link"))
+RCircos.Validate.Genomic.Data(genomic.data, plot.type = c("plot", "link"))
 }
 \arguments{
   \item{genomic.data}{

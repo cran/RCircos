@@ -4,7 +4,7 @@
 Calculate New Position for Gene Labels
 }
 \description{
-This function calculates new plot position from genomic positions for gene laabeling. In case there are too many genes in a genomic interval, the lables may become overlapped so that correct numbers and new plot positions are often needed to make the labels readable. This function will remove extra label data points if they cannot fit in the given genomic interval.
+This function calculates new plot position from genomic positions for gene labeling. In case there are too many genes in a genomic interval, the lables may become overlapped so that correct numbers and new plot positions are often needed to make the labels readable. This function will remove extra label data points if they cannot fit in the given genomic interval.
 
 This function is for internal use only.
 }

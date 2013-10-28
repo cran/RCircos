@@ -2,7 +2,7 @@
 \alias{RCircos.Tile.Data}
 \docType{data}
 \title{
-Sample Data for Circos Tile Plot 
+Sample Data for RCircos Tile Plot 
 }
 \description{
 A data frame contining genomic position data only (chromosome, start and end positions). 

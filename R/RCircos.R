@@ -11,8 +11,8 @@
 # 		__________________________________________________
 # 		
 # 
-# 		Last revised on May 16, 2013
-# 		Version:	RCircos.1.1.0
+# 		Last revised on October 28, 2013
+# 		Version:	RCircos.1.1.2
 # 
 # 		by Hongen Zhang, Ph.D. (hzhang@mail.nih.gov)
 #  
@@ -75,9 +75,9 @@ RCircos.Workflow<-function()
 	cat("    RCircos.Set.Core.Components(cyto.info, chr.exclude=NULL, 10, 0);\n\n");
 
 	cat("4.  Load input data:\n\n");
-	cat("    expr.data <- read.table(\"/path/Heatmap.data.txt, sep=\"\\t\", quote=\"\", head=T);\n");
-	cat("    hist.data <- read.table(\"/path/histgram.data.txt, sep=\"\\t\", quote=\"\", head=T);\n");
-	cat("    link.data <- read.table(\"/path/link.data.txt, sep=\"\\t\", quote=\"\", head=T);\n\n");
+	cat("    heatmap.data <- read.table(\"/path/Heatmap.data.txt\", sep=\"\\t\", quote=\"\", head=T);\n");
+	cat("    hist.data <- read.table(\"/path/histgram.data.txt\", sep=\"\\t\", quote=\"\", head=T);\n");
+	cat("    link.data <- read.table(\"/path/link.data.txt\", sep=\"\\t\", quote=\"\", head=T);\n\n");
 
 	cat("5.  Modify plot parameters if necessary:\n\n");
 	cat("    rcircos.params <- RCircos.Get.Plot.Parameters()\n");
@@ -91,17 +91,16 @@ RCircos.Workflow<-function()
 	cat("    plot.new();\n");
 	cat("    plot.window(c(-2.5,2.5), c(-2.5, 2.5));\n\n");
 
-	cat("7.  Read in your plot data ...\n\n");
-
-	cat("8.  Call plot function to plot each data track:\n\n");
+	cat("7.  Call plot function to plot each data track:\n\n");
 	cat("    RCircos.Chromosome.Ideogram.Plot();\n");
 	cat("    RCircos.Heatmap.Plot(heatmap.data, data.col=5, track.num=1, side=\"in\");\n");
 	cat("    RCircos.Histogram.Plot(hist.data, data.col=4, track.num=4, side=\"in\");\n");
 	cat("    RCircos.Link.Plot(link.data, track.num=5, by.chromosome=FALSE);\n\n");
 
-	cat("9. Close the graphic device if you was plotting to file:\n\n");
+	cat("8. Close the graphic device if you was plotting to file:\n\n");
 	cat("    dev.off();\n\n");
 }
+
 
 
 
@@ -208,6 +207,7 @@ RCircos.Get.Plot.Positions<-function()
 
 
 
+
 # 	______________________________________________________________________________________________________
 #	<R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R>
 #
@@ -219,7 +219,7 @@ RCircos.Get.Plot.Positions<-function()
 #	Example:	RCircos.List.Parameters();
 #
 #
-#	Last revised on May 8, 2013
+#	Last revised on October 28, 2013
 #
 #
 
@@ -229,9 +229,11 @@ RCircos.List.Parameters<-function()
 	cat("Parameters for current RCircos session.\n\n");
 
 
-	#	parameters relevant to radius.len
+	#	parameters relative to radius.len
 	#	_________________________________________________________
 	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+	cat("Parameters relative to radius.len:\n");
 
 	cat(paste("radius.len:\t",     RCircos.Par$radius.len, "\n"));
 	cat(paste("chr.ideog.pos:\t",  RCircos.Par$chr.ideog.pos, "\n"));
@@ -247,9 +249,11 @@ RCircos.List.Parameters<-function()
 	cat(paste("track.height:\t",   RCircos.Par$track.height, "\n\n"));
 
 
-	#	parameters relevant to chromosome unit
+	#	parameters relative to chromosome unit
 	#	_________________________________________________________
 	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+	cat("Parameters relative to chromosome unit:\n");
 
 	cat(paste("base.per.unit:\t",  RCircos.Par$base.per.unit, "\n"));
 	cat(paste("chrom.paddings:\t", RCircos.Par$chrom.paddings, "\n"));
@@ -261,15 +265,26 @@ RCircos.List.Parameters<-function()
 	#	_________________________________________________________
 	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-	cat(paste("text.size:\t",      RCircos.Par$text.size, "\n"));
-	cat(paste("highlight.width:",  RCircos.Par$highlight.width, "\n"));
-	cat(paste("point.type:\t",     RCircos.Par$point.type, "\n"));
-	cat(paste("point.size:\t",     RCircos.Par$point.size, "\n"));
-	cat(paste("track.background:\t", RCircos.Par$track.background, "\n"));
-	cat(paste("Bezier.point:\t",   RCircos.Par$Bezier.point, "\n"));
-	cat(paste("max.layers:\t",     RCircos.Par$max.layers, "\n"))
-	cat(paste("sub.tracks:\t",     RCircos.Par$sub.tracks, "\n\n"))
+	cat("General R graphic parameters:\n");
 
+        cat(paste("text.size:\t",      RCircos.Par$text.size, "\n"));
+        cat(paste("highlight.width:",  RCircos.Par$highlight.width, "\n"));
+        cat(paste("point.type:\t",     RCircos.Par$point.type, "\n"));
+        cat(paste("point.size:\t",     RCircos.Par$point.size, "\n"));
+
+        cat(paste("text.color\t",       RCircos.Par$text.color, "\n"));
+        cat(paste("heatmap.color\t",   RCircos.Par$heatmap.color, "\n"));
+        cat(paste("hist.color:\t",     RCircos.Par$hist.color, "\n"));
+        cat(paste("line.color:\t",     RCircos.Par$line.color, "\n"));
+        cat(paste("scatter.color:\t",  RCircos.Par$scatter.color, "\n"));
+        cat(paste("tile.color:\t",     RCircos.Par$tile.color, "\n"));
+
+        cat(paste("track.background:\t", RCircos.Par$track.background, "\n"));
+        cat(paste("grid.line.color:\t", RCircos.Par$grid.line.color, "\n"));
+
+        cat(paste("Bezier.point:\t",   RCircos.Par$Bezier.point, "\n"));
+        cat(paste("max.layers:\t",     RCircos.Par$max.layers, "\n"))
+        cat(paste("sub.tracks:\t",     RCircos.Par$sub.tracks, "\n\n"))
 
 	#	User friendly note
 	#	_________________________________________________________
@@ -283,6 +298,7 @@ RCircos.List.Parameters<-function()
 
 	cat("Chromosome ideogram data were automatically modified.\n\n");
 }
+
 
 
 
@@ -315,6 +331,7 @@ RCircos.Set.Plot.Area<-function()
 
 
 
+
 # 	______________________________________________________________________________________________________
 #	<R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R>
 #
@@ -330,7 +347,7 @@ RCircos.Set.Plot.Area<-function()
 #			RCircos.Reset.Plot.Parameters(plot.params);
 #
 #
-#	Last revised on May 8, 2013
+#	Last revised on October 28, 2013
 #
 #
 
@@ -340,11 +357,27 @@ RCircos.Reset.Plot.Parameters<-function(new.params)
 	#	_________________________________________________________
 	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-	point.chr <- new.params$point.type;
-	bg.color <- new.params$track.background;
-	params <- unlist(new.params);
-	params <- params[-which(params==point.chr)];
-	params <- params[-which(params==bg.color)];
+       	point.chr       <- new.params$point.type;
+        text.color      <- new.params$text.color;
+        heatmap.color   <- new.params$heatmap.color;
+        hist.color      <- new.params$hist.color;
+        line.color      <- new.params$line.color;
+        scatter.color   <- new.params$scatter.color;
+        tile.color      <- new.params$tile.color;
+        bg.color        <- new.params$track.background;
+        grid.color      <- new.params$grid.line.color;
+        
+        params <- unlist(new.params);
+        params <- params[-which(params==point.chr)];
+        params <- params[-which(params==text.color)];
+        params <- params[-which(params==heatmap.color)];
+        params <- params[-which(params==hist.color)];
+        params <- params[-which(params==line.color)];
+        params <- params[-which(params==scatter.color)]
+        params <- params[-which(params==tile.color)];
+        params <- params[-which(params==bg.color)];
+        params <- params[-which(params==grid.color)];
+
 	params <- as.numeric(params);
 
 	if(sum(is.na(params))>0) 
@@ -359,27 +392,39 @@ RCircos.Reset.Plot.Parameters<-function(new.params)
 	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 	old.params <- RCircos.Get.Plot.Parameters();
+
+
+	#	Remove the old location data from cyto.band.data which
+	#	will be recalculated and added.
+	#	_________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
 	cyto.band.data <- RCircos.Get.Plot.Ideogram();
 	cyto.band.data$Unit <- NULL;
 	cyto.band.data$Location <- NULL;	
 
 
-	#	Update chromosome padding based on base.per.unit
+	#	Update chromosome padding based on number of base.per.unit.
+	#	Padding length should be always no more than 3/1000 total 
+	#	chromosome units
 	#	_________________________________________________________
 	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-	base.const <- 9000000;
-	base.pairs <- new.params$base.per.unit;
-	the.padding <- round(base.const/new.params$base.per.unit, digits=0);
-
-
-	#	If user did not change chrom.padding to zero. Use the
-	#	calculated one since old one may be too big. 
- 	# 	___________________________________________________________
-	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
 	if(new.params$chrom.paddings!=0) 
-	{ new.params$chrom.paddings <- the.padding; }
+	{ 
+		padding.const <- 3000/1000000;
+		genome.lenth <- sum(cyto.band.data$Length);
+		total.units <- genome.lenth/new.params$base.per.unit;
+		the.padding <- round(padding.const*total.units, 
+				digits=0);
+
+		if(new.params$chrom.paddings>the.padding) {
+			cat(paste("\nNote: chrom.padding", 
+				new.params$chrom.paddings, "is too big,",
+				"and was reset to", the.padding, "\n"));
+			new.params$chrom.paddings <- the.padding; 
+		}
+	}
 
 
 	#	Always keep radius.len 1.0 or greater.
@@ -434,6 +479,7 @@ RCircos.Reset.Plot.Parameters<-function(new.params)
 	RCircos.Set.Base.Plot.Positions();
 
 }
+
 
 
 
@@ -531,6 +577,7 @@ RCircos.Chromosome.Ideogram.Plot<-function()
 
 
 
+
 # 	______________________________________________________________________________________________________
 #	<R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R>
 #
@@ -553,14 +600,14 @@ RCircos.Chromosome.Ideogram.Plot<-function()
 #	Example:	RCircos.Gene.Connector.Plot(genomic.data, 1, "in")
 #
 #
-#	Last revised on May 8, 2013
+#	Last revised on October 28, 2013
 #
 #
 
 RCircos.Gene.Connector.Plot<-function(genomic.data, track.num, side)
 {
 	RCircos.Pos <- RCircos.Get.Plot.Positions();
-
+	RCircos.Par <- RCircos.Get.Plot.Parameters();
 
 	#	Construct Connector data from gene name data
 	#	_________________________________________________________
@@ -578,6 +625,13 @@ RCircos.Gene.Connector.Plot<-function(genomic.data, track.num, side)
 	locations <- RCircos.Track.Positions(side, track.num);
 	out.pos <- locations[1];
 	in.pos <- locations[2];
+
+
+	#	Connector colors
+	#	_________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+	line.colors <- RCircos.Get.Plot.Colors(label.data, RCircos.Par$text.color);
 
 
 	#	Heights for the two vertical lines of connectors and
@@ -613,7 +667,8 @@ RCircos.Gene.Connector.Plot<-function(genomic.data, track.num, side)
 			lines(c(RCircos.Pos[p1, 1]*out.pos,
 					RCircos.Pos[p1,  1]*top.loc),
 				c(RCircos.Pos[p1,2]*out.pos,
-					RCircos.Pos[p1, 2]*top.loc));
+					RCircos.Pos[p1, 2]*top.loc),
+				col=line.colors[chr.row[a.point]]);
 
 
 			#	draw bottom vertical line
@@ -623,7 +678,8 @@ RCircos.Gene.Connector.Plot<-function(genomic.data, track.num, side)
 			lines(c(RCircos.Pos[p2, 1]*bot.loc, 
 					RCircos.Pos[p2, 1]*in.pos),
 				c(RCircos.Pos[p2,2]*bot.loc,
-					RCircos.Pos[p2, 2]*in.pos));
+					RCircos.Pos[p2, 2]*in.pos),
+				col=line.colors[chr.row[a.point]]);
 
 
 			#	draw horizontal line
@@ -633,10 +689,12 @@ RCircos.Gene.Connector.Plot<-function(genomic.data, track.num, side)
 			lines(c(RCircos.Pos[p1,  1]*top.loc, 
 					RCircos.Pos[p2, 1]*bot.loc),
 				c(RCircos.Pos[p1, 2]*top.loc,
-					RCircos.Pos[p2, 2]*bot.loc));
+					RCircos.Pos[p2, 2]*bot.loc),
+				col=line.colors[chr.row[a.point]]);
 		}
 	}
 }
+
 
 
 
@@ -661,7 +719,7 @@ RCircos.Gene.Connector.Plot<-function(genomic.data, track.num, side)
 #	Example:	RCircos.Gene.Label(gene.data, 4, 3, "in")
 #
 #
-#	Last revised on May 8, 2013
+#	Last revised on October 28, 2013
 #
 #
 
@@ -693,6 +751,12 @@ RCircos.Gene.Name.Plot<-function(gene.data, name.col, track.num, side)
 
 	right.side <- nrow(RCircos.Pos)/2;
 
+
+	#	Label colors
+	#	_________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+	text.colors <- RCircos.Get.Plot.Colors(gene.data, RCircos.Par$text.color);
 
 	#	Plot labels
 	#	_________________________________________________________
@@ -727,9 +791,11 @@ RCircos.Gene.Name.Plot<-function(gene.data, name.col, track.num, side)
 			RCircos.Pos[the.point,2]*label.pos,
 			label=gene.name, pos=text.side,  
 			cex=RCircos.Par$text.size, 
-			srt=rotation, offset=0);
+			srt=rotation, offset=0, 
+			col=text.colors[a.text]);
 	}
 }
+
 
 
 
@@ -752,7 +818,7 @@ RCircos.Gene.Name.Plot<-function(gene.data, name.col, track.num, side)
 #	Example:	RCircos.Heatmap.Plot(heatmap.data, 3, 3, "in")
 #
 #
-#	Last revised on May 8, 2013
+#	Last revised on October 28, 2013
 #
 #
 
@@ -774,12 +840,8 @@ RCircos.Heatmap.Plot<-function(heatmap.data, data.col, track.num, side)
 	#	Colors for different data values
 	#	___________________________________________________________
 	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
-	RedRamp <- rgb( seq(1, 1, length=256),  seq(0, 1, length=256),  
-			seq(0, 1, length=256)) ; 
-	BlueRamp <- rgb(seq(0, 1, length=256),  seq(0, 1, length=256),  
-			seq(1, 1, length=256));		
-	ColorRamp   <- cbind(BlueRamp, rev(RedRamp));
+	
+	ColorRamp   <- RCircos.Get.Heatmap.ColorScales(RCircos.Par$heatmap.color);
 
 
 	#	Color level. Heatmap data has to have four leading columns
@@ -850,7 +912,8 @@ RCircos.Heatmap.Plot<-function(heatmap.data, data.col, track.num, side)
 
 	#	Plot heatmap for each gene.
 	#	_______________________________________________
-	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
 	heatmap.value <- as.numeric(heatmap.data[, data.col]);
 	for(a.point in 1:length(heatmap.value))
 	{
@@ -868,6 +931,7 @@ RCircos.Heatmap.Plot<-function(heatmap.data, data.col, track.num, side)
 	}
 
 }
+
 
 
 
@@ -889,7 +953,7 @@ RCircos.Heatmap.Plot<-function(heatmap.data, data.col, track.num, side)
 #	Example:	RCircos.Histogram.Plot(hist.data, 4, 2, "in")
 #
 #
-#	Last revised on May 8, 2013
+#	Last revised on October 28, 2013
 #
 
 RCircos.Histogram.Plot<-function(hist.data, data.col, track.num, side)
@@ -942,6 +1006,13 @@ RCircos.Histogram.Plot<-function(hist.data, data.col, track.num, side)
 	in.pos <- locations[2];
 
 
+        #       Label colors
+        #       _________________________________________________________
+        #       xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+ 
+        hist.colors <- RCircos.Get.Plot.Colors(hist.data, RCircos.Par$hist.color); 
+
+
 	#	Draw histogram
 	#	___________________________________________________________
 	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -967,10 +1038,12 @@ RCircos.Histogram.Plot<-function(hist.data, data.col, track.num, side)
 				RCircos.Pos[the.end:the.start,1]*in.pos);
 		polygon.y<- c(RCircos.Pos[the.start:the.end,2]*height, 
 				RCircos.Pos[the.end:the.start,2]*in.pos);
-		polygon(polygon.x, polygon.y, col="red", border=NA);
+		polygon(polygon.x, polygon.y, col=hist.colors[a.point], 
+				border=NA);
 	}
 
 }
+
 
 
 
@@ -992,7 +1065,7 @@ RCircos.Histogram.Plot<-function(hist.data, data.col, track.num, side)
 #	Example:	RCircos.Line.Plot(line.data, 4, 3, "in")
 #
 #
-#	Last revised on May 8, 2013
+#	Last revised on October 28, 2013
 #
 #
 
@@ -1034,6 +1107,13 @@ RCircos.Line.Plot<-function(line.data, data.col, track.num, side)
 	sub.height <- out.pos-point.bottom;
 
 
+        #       Line colors
+        #       _________________________________________________________
+        #       xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        line.colors <- RCircos.Get.Plot.Colors(line.data, RCircos.Par$line.color); 
+
+
 	#	Start plotting. Line plot is connecting two neighbor points
 	#	so no exception catch needed.
 	#	____________________________________________________________
@@ -1062,7 +1142,7 @@ RCircos.Line.Plot<-function(line.data, data.col, track.num, side)
 			value.one<- data.ceiling;
 		} else if(line.data[a.point, data.col] <(-1*data.ceiling)) {  
 			value.one <- data.ceiling*-1;
-		} else { 	value.one <- line.data[a.point, data.col];  }
+		} else { value.one <- line.data[a.point, data.col];  }
 
 		height.one <- point.bottom  + value.one/data.ceiling*sub.height;
 
@@ -1071,7 +1151,7 @@ RCircos.Line.Plot<-function(line.data, data.col, track.num, side)
 			value.two<- data.ceiling;
 		} else if(line.data[a.point+1, data.col] <(-1*data.ceiling)) {  
 			value.two <- data.ceiling*-1;
-		} else { 	value.two <- line.data[a.point+1, data.col];  }
+		} else { value.two <- line.data[a.point+1, data.col];  }
 
 		height.two <- point.bottom  + value.two/data.ceiling*sub.height;
 
@@ -1083,9 +1163,11 @@ RCircos.Line.Plot<-function(line.data, data.col, track.num, side)
 		lines(c(RCircos.Pos[point.one ,1]*height.one,
 				RCircos.Pos[point.two ,1]*height.two),
 		       	c(RCircos.Pos[point.one , 2]*height.one,
-				RCircos.Pos[point.two ,2]*height.two));
+				RCircos.Pos[point.two ,2]*height.two),
+                        col=line.colors[a.point]);
 	}
 }
+
 
 
 
@@ -1107,7 +1189,7 @@ RCircos.Line.Plot<-function(line.data, data.col, track.num, side)
 #	Example:	RCircos.Scatter.Plot(scatter.data, 5, 3, "in", 1)
 #
 #
-#	Last revised on May 8, 2013
+#	Last revised on October 28, 2013
 #
 #
 
@@ -1148,7 +1230,14 @@ RCircos.Scatter.Plot<-function(scatter.data, data.col, track.num, side, by.fold=
 	}
 	sub.height <- out.pos-point.bottom;
 
-	
+
+        #       scatter point colors
+        #       _________________________________________________________
+        #       xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        scatter.colors <- RCircos.Get.Plot.Colors(scatter.data, RCircos.Par$scatter.color); 
+
+
 	#	Start plotting
 	#	____________________________________________________________
 	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -1175,7 +1264,7 @@ RCircos.Scatter.Plot<-function(scatter.data, data.col, track.num, side, by.fold=
 		#	_____________________________________________________
 		#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-		color <- "black";
+		color <- scatter.colors[a.point];
 		if(by.fold>0) {
 			if(the.value>=by.fold) { color <- "red"; 
 			} else if (the.value<=-by.fold) { color <- "blue";
@@ -1196,6 +1285,8 @@ RCircos.Scatter.Plot<-function(scatter.data, data.col, track.num, side, by.fold=
 }
 
 
+
+
 # 	______________________________________________________________________________________________________
 #	<R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R>
 #
@@ -1213,7 +1304,7 @@ RCircos.Scatter.Plot<-function(scatter.data, data.col, track.num, side, by.fold=
 #	Example:	RCircos.Tile.Plot(tile.data, track.num=3, side="in", 1)
 #
 #
-#	Last revised on May 8, 2013
+#	Last revised on October 28, 2013
 #
 #
 
@@ -1230,14 +1321,6 @@ RCircos.Tile.Plot<-function(tile.data, track.num, side)
 
 	tile.data <- RCircos.Get.Plot.Data(tile.data, "plot");
 
-
-	#	Plot position for current track. 
-	#	____________________________________________________________
-	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
-	locations <- RCircos.Track.Positions(side, track.num);
-	out.pos <- locations[1];
-	in.pos <- locations[2];
 
 
 	#	Assign a layer number to each data point and find the maxium
@@ -1276,18 +1359,44 @@ RCircos.Tile.Plot<-function(tile.data, track.num, side)
 		tile.layers[a.row] <- the.layer;
 	}
 
+
+	#	Plot position for current track. Adjust them if total layers
+	#	is great than RCircos.Par$max.layers.
+	#	___________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+	locations <- RCircos.Track.Positions(side, track.num);
+	out.pos <- locations[1];
+	in.pos <- locations[2];
+
+	layer.height <- RCircos.Par$track.height/RCircos.Par$max.layers;
 	num.layers <- max(tile.layers);
+
 	if(num.layers>RCircos.Par$max.layers) 
 	{ 
-		RCircos.Par$track.height <- RCircos.Par$track.height/
-				RCircos.Par$max.layers*num.layers; 
+		if(side=="in")
+		{  in.pos <- out.pos - layer.height*num.layers;		
+		} else { out.pos <- in.pos + layer.height*num.layers; }
+
+		cat(paste("Tiles plot will use more than one track.",
+			"Please select correct area for next track.\n"));
 	}
-	layer.height <- RCircos.Par$track.height/num.layers;
+	
+	if(num.layers<RCircos.Par$max.layers) 
+	{ layer.height <- RCircos.Par$track.height/num.layers; }
+
+
+        #       Tile colors
+        #       _________________________________________________________
+        #       xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+ 
+        tile.colors <- RCircos.Get.Plot.Colors(tile.data, RCircos.Par$tile.color); 
 
 
 	#	Start plotting
 	#	____________________________________________________________
 	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
 
 	RCircos.Track.Outline(out.pos, in.pos, num.layers);
 
@@ -1306,9 +1415,10 @@ RCircos.Tile.Plot<-function(tile.data, track.num, side)
 				RCircos.Pos[end:start,1]*layer.bot);
 		polygon.y<- c(RCircos.Pos[start:end,2]*layer.top, 
 				RCircos.Pos[end:start,2]*layer.bot);
-		polygon(polygon.x, polygon.y, col="black");
+		polygon(polygon.x, polygon.y, col=tile.colors[a.row]);
 	}
 }
+
 
 
 
@@ -1327,7 +1437,7 @@ RCircos.Tile.Plot<-function(tile.data, track.num, side)
 #	Example:	RCircos.Link.Plot(link.data, 9, FALSE);
 #
 #
-#	Last revised on May 3, 2013
+#	Last revised on October 28, 2013
 #
 #
 
@@ -1353,7 +1463,6 @@ RCircos.Link.Plot<-function(link.data, track.num, by.chromosome=FALSE)
 	base.positions <- RCircos.Pos*start;
 
 	data.points <- matrix(rep(0, nrow(link.data)*2), ncol=2);
-	line.colors <- rep("blue", nrow(link.data));
 	for(a.link in 1:nrow(link.data))
 	{
 		data.points[a.link, 1] <- RCircos.Data.Point(
@@ -1363,13 +1472,14 @@ RCircos.Link.Plot<-function(link.data, track.num, by.chromosome=FALSE)
 
 		if(data.points[a.link, 1]==0 || data.points[a.link, 2]==0)
 		{  print("Error in chromosome locations ...");  break; }
-
-		if(by.chromosome==TRUE) {
-			if(link.data[a.link, 1]==link.data[a.link, 4]) {
-				line.colors[a.link] <- "red";
-			} 
-		} else {  line.colors[a.link] <- a.link; }
 	}
+
+
+        #       Get link line colors for each pair of locations
+        #       __________________________________________________
+        #       xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        link.colors <- RCircos.Get.Link.Colors(link.data, by.chromosome);
 
 
 	#	Draw link lines for each pair of locations
@@ -1388,9 +1498,12 @@ RCircos.Link.Plot<-function(link.data, track.num, by.chromosome=FALSE)
 
 		P0 <- as.numeric(base.positions[point.one,]);
 		P2 <- as.numeric(base.positions[point.two,]);
-		RCircos.Link.Line(P0, P2, line.colors[a.link] );  
+		links <- RCircos.Link.Line(P0, P2); 
+		lines(links$pos.x, links$pos.y, type="l", 
+			col=link.colors[a.link] ); 
 	}
 }
+
 
 
 
@@ -1476,12 +1589,17 @@ RCircos.Validate.Cyto.Info<-function(cyto.info, chr.exclude)
 	chr.names <- chromosomes[grep("[0-9]", chromosomes)];
 	chr.names <- chr.names[order(as.numeric(sub("chr", "", chr.names)))];
 
-	if(length(grep("X", chromosomes))==1)
-	{ chr.names <- c(chr.names, chromosomes[grep("X", chromosomes)]);  }
 
-	if(length(grep("Y", chromosomes))==1)
-	{ chr.names <- c(chr.names, chromosomes[grep("Y", chromosomes)]);  }
+	#	If there are sex chromosomes (X, Y, and others)
+	# 	_______________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
+	if (length(chr.names)<length(chromosomes)) {
+
+		other.chr <- chromosomes[-grep("[0-9]", chromosomes)];
+		other.chr <- other.chr[order(other.chr)];
+		chr.names <- c(chr.names, other.chr);
+	}
 	chromosomes <- chr.names;
 
 
@@ -1523,6 +1641,7 @@ RCircos.Validate.Cyto.Info<-function(cyto.info, chr.exclude)
 
 	return (new.cyto.info);
 }
+
 
 
 
@@ -1655,6 +1774,7 @@ RCircos.Validate.Genomic.Data<-function(genomic.data, plot.type=c("plot", "link"
 
 
 
+
 # 	______________________________________________________________________________________________________
 #	<R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R>
 # 
@@ -1700,7 +1820,7 @@ RCircos.Multiple.Species.Core.Components<-function(cyto.info.list, species.list,
     		cyto.info <- data.frame(cyto.info.list[a.cyto]);
 		prefix <- species.list[a.cyto];
 
-    		cyto.info <- RCircos.Validate.Cyto.Info(cyto.info, chr.exclude);
+    		cyto.info <- RCircos.Validate.Cyto.Info(cyto.info, NULL);
 		cyto.info$Chromosome <- paste(prefix, cyto.info$Chromosome, sep="");
 	
 		if(a.cyto==1) { new.cyto.info <- cyto.info;
@@ -1718,6 +1838,7 @@ RCircos.Multiple.Species.Core.Components<-function(cyto.info.list, species.list,
 	RCircos.Set.Cytoband.data(new.cyto.info);
 	RCircos.Set.Base.Plot.Positions();
 }
+
 
 
 
@@ -1745,7 +1866,7 @@ RCircos.Multiple.Species.Core.Components<-function(cyto.info.list, species.list,
 #
 #
 
-RCircos.Multiple.Species.Dataset <- function(data.list, species)
+RCircos.Multiple.Species.Dataset<-function(data.list, species)
 {
 	#	Number of datasets and species must be same
 	#	__________________________________________________________________
@@ -1783,6 +1904,220 @@ RCircos.Multiple.Species.Dataset <- function(data.list, species)
 	return (new.data);
 }
 
+
+
+
+# 	______________________________________________________________________________________________________
+#	<R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R>
+# 
+#	Ribbon link plot. Ribbons are wide link line between two chromosome segments.
+#
+#	Arguments:
+#
+#	link.data:	Data frame with paired genomic positions in each row
+#	track.num:	Number of the track from chromosome ideogram.
+#
+#	Return value:	None
+#
+#	Example:	RCircos.Ribbon.Plot(ribbon.data, 10, FALSE, FALSE)
+#
+#
+#	Last revised on June 13, 2013
+#
+#
+
+RCircos.Ribbon.Plot<-function(ribbon.data, track.num, by.chromosome=FALSE, twist=FALSE)
+{
+	RCircos.Pos <- RCircos.Get.Plot.Positions();
+	RCircos.Par <- RCircos.Get.Plot.Parameters();
+
+
+	#	Check chromosome names, Start, and End positions
+	#	_______________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+	ribbon.data <- RCircos.Validate.Genomic.Data(ribbon.data, plot.type="link");
+
+
+	#	Plot position for link track.
+	#	__________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+	one.track <- RCircos.Par$track.height + RCircos.Par$track.padding;
+	track.out <- RCircos.Par$track.in.start - (track.num-1)*one.track;
+	base.positions <- RCircos.Pos*track.out;
+
+
+	#	Coordinates of the four conners of each ribbon (polygon) 
+	#	__________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+	data.points <- matrix(rep(0, nrow(ribbon.data)*4), ncol=4);
+	for(a.link in 1:nrow(ribbon.data))
+	{
+		data.points[a.link, 1] <- RCircos.Data.Point(
+			ribbon.data[a.link, 1], ribbon.data[a.link, 2]);
+		data.points[a.link, 2] <- RCircos.Data.Point(
+			ribbon.data[a.link, 1], ribbon.data[a.link, 3]);
+		data.points[a.link, 3]<- RCircos.Data.Point(
+			ribbon.data[a.link, 4], ribbon.data[a.link, 5]);
+		data.points[a.link, 4]<- RCircos.Data.Point(
+			ribbon.data[a.link, 4], ribbon.data[a.link, 6]);
+
+                if(data.points[a.link, 1]==0 || data.points[a.link, 2]==0 ||
+                        data.points[a.link, 3]==0 || data.points[a.link, 4]==0)
+               {  stop("Error in chromosome locations ...");  }
+
+	}
+
+
+	#	Ribbon colors
+	#	__________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+	ribbon.colors <- RCircos.Get.Link.Colors(ribbon.data, by.chromosome);
+
+
+	#	Draw each ribbon (polygon)
+	#	__________________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+	for(a.ribbon in 1:nrow(ribbon.data))
+	{
+		start.one <- data.points[a.ribbon, 1];
+		end.one <- data.points[a.ribbon, 2];
+
+		if(twist==FALSE) {
+			start.two <- data.points[a.ribbon, 3];
+			end.two <- data.points[a.ribbon, 4];
+		} else {
+			start.two <- data.points[a.ribbon, 4];
+			end.two <- data.points[a.ribbon, 3];
+		}
+
+		P0 <- as.numeric(base.positions[end.one,]);
+		P2 <- as.numeric(base.positions[start.two,]);
+		line.one <- RCircos.Link.Line(P0, P2);
+
+		P0 <- as.numeric(base.positions[end.two,]);
+		P2 <- as.numeric(base.positions[start.one,]);
+		line.two <- RCircos.Link.Line(P0, P2);
+
+		polygon.x<- c(base.positions[start.one:end.one,1],
+				line.one$pos.x,
+				base.positions[start.two:end.two,1],
+				line.two$pos.x );
+		polygon.y<- c(base.positions[start.one:end.one,2],
+				line.one$pos.y,
+				base.positions[start.two:end.two,2],
+				line.two$pos.y );
+		polygon(polygon.x, polygon.y, border=NA, 
+				col=ribbon.colors[a.ribbon]);
+	}
+}
+
+
+
+
+# 	______________________________________________________________________________________________________
+#	<R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R>
+# 
+#	Erase one track or center area
+#
+#  	Arguments:
+#
+#	track.num:	The ordinal numbers of track to be cleared (e.g., 2,3,4
+#	side: 		The position of track relative to chromosome  ideogram, either "in" or "out"
+#	to.center:	Logical, TRUE for erase inner area including current track and FALSE for clear
+#			current track only
+#
+#	Returned values: None
+#
+#	Example:	RCircos.Clear.Track(track.num=2, side="in", to.center=FALSE);
+#
+#
+#	Last revised on June 13, 2013
+#
+
+RCircos.Clear.Track<-function(track.num, side, to.center=FALSE)
+{
+	RCircos.Pos <- RCircos.Get.Plot.Positions();
+	RCircos.Par <- RCircos.Get.Plot.Parameters();
+
+
+	#	Plot position for current track. 
+	#	___________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+	locations <- RCircos.Track.Positions(side, track.num);
+
+	if(side=="in") {
+		out.pos <- locations[1];
+		in.pos <- locations[2] - RCircos.Par$track.padding;
+	} else {
+		out.pos <- locations[1] + RCircos.Par$track.padding;
+		in.pos <- locations[2];
+	}
+
+
+	#	Clear all inner area including current track 
+	#	___________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+	if(side=="in" && to.center==TRUE)
+	{
+		polygon.x <- c(RCircos.Pos[,1]*out.pos, 
+				rep(0, nrow(RCircos.Pos)) );
+		polygon.y <- c(RCircos.Pos[,2]*out.pos, 
+				rep(0, nrow(RCircos.Pos)) );		
+
+
+	#	Clear current track area only
+	#	___________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+	} else {
+		polygon.x <- c(RCircos.Pos[,1]*out.pos, 
+				RCircos.Pos[,1]*in.pos);
+		polygon.y <- c(RCircos.Pos[,2]*out.pos, 
+				RCircos.Pos[,2]*in.pos);
+	}
+
+	polygon(polygon.x, polygon.y, col="white", border="white");
+
+}
+
+
+
+
+# 	______________________________________________________________________________________________________
+#	<R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R>
+# 
+#	Reset chromosome ideogram plot data
+#
+#  	Arguments:
+#
+#	chromIdeo:	data frame, object of RCircos cytoband data returned from RCircos.Get.Plot.Ideogram(). 
+#
+#	Returned values: None
+#
+#	Example:	Reserved for advanced usage.
+#			chromIdeo <- RCircos.Get.Plot.Ideogram();
+#			chromIdeo$Location <- round(chromIdeo$Location*0.95);
+#			RCircos.Reset.Plot.Ideogram(chromIdeo);
+#
+#	Last revised on October 22, 2013
+#
+
+RCircos.Reset.Plot.Ideogram<-function(chromIdeo)
+{
+	RCircosEnvironment <- NULL;
+	RCircosEnvironment <- get("RCircos.Env", envir=globalenv());
+	RCircosEnvironment[["RCircos.Cytoband"]] <- chromIdeo;
+}
+
+
+
 #
 # 	______________________________________________________________________________________________________
 #	<R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R><R>
@@ -1805,6 +2140,8 @@ RCircos.Multiple.Species.Dataset <- function(data.list, species)
 #  	<INTERNAL USE><INTERNAL USE><INTERNAL USE><INTERNAL USE><INTERNAL USE><INTERNAL USE><INTERNAL USE>
 #
 #	Initialize default global parameters for Circos plot. Internal use only
+#
+#	Returned values: None
 #
 #	Example:	Internal use only
 #
@@ -1853,33 +2190,41 @@ RCircos.Initialize.Parameters<-function(tracks.inside, tracks.outside)
 	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 	plot.param <- list( 
-			base.per.unit=3000,
-			chrom.paddings=3000,
+                        base.per.unit=3000,
+                        chrom.paddings=3000,
 
-			radius.len=radius.default,   
-			chr.ideog.pos=radius.default+0.1,
-			highlight.pos=radius.default+0.25,
-			chr.name.pos=radius.default+0.4,
+                        radius.len=radius.default,   
+                        chr.ideog.pos=radius.default+0.1,
+                        highlight.pos=radius.default+0.25,
+                        chr.name.pos=radius.default+0.4,
 
-			plot.radius=plot.radius.default,
-			track.out.start=radius.default+0.5, 
-			track.in.start=radius.default+0.05, 
+                        plot.radius=plot.radius.default,
+                        track.out.start=radius.default+0.6, 
+                        track.in.start=radius.default+0.05, 
 
-			chrom.width=0.1,
-			track.padding=0.02, 
-			track.height=0.1, 
+                        chrom.width=0.1,
+                        track.padding=0.02, 
+                        track.height=0.1, 
  
-			hist.width=1000,
- 			heatmap.width=1000,
-			text.size=0.4,
+                        hist.width=1000,
+                        heatmap.width=1000,
+                        text.size=0.4,
+                        highlight.width=round(radius.default, digits=0),
+                        point.size=1,
 
-			highlight.width=round(radius.default, digits=0),
-			point.type=".", 
-			point.size=1,
-			track.background="gray",
-			Bezier.point=1000,
-			max.layers=5,
-			sub.tracks=5);
+                        point.type=".", 
+                        text.color="black",
+                        heatmap.color="BlueWhiteRed",
+                        hist.color="red",
+                        line.color="black",
+                        scatter.color="black",
+                        tile.color="black",
+                        track.background="wheat",
+                        grid.line.color="gray",
+
+                        Bezier.point=1000,
+                        max.layers=5,
+                        sub.tracks=5);
 
 
 	#	Put the plot parameter in RCircos environment
@@ -1891,6 +2236,7 @@ RCircos.Initialize.Parameters<-function(tracks.inside, tracks.outside)
 	RCircosEnvironment[["RCircos.PlotPar"]] <- plot.param;
 	
 }
+
 
 
 
@@ -2304,14 +2650,14 @@ RCircos.Track.Positions<-function(side, track.num)
 #
 #		out.pos:	scaling factor for outer position of the track 
 #		in.pos:		scaling factor for inner position of the track 
-#		num.subtrack:	integer, number of subtracks to plot
+#		num.layers:	integer, number of subtracks to plot
 #
 #	Return value:	None
 #
 #	Example:	RCircos.Track.Outline(0.75, 0.65, 5)
 #
 #
-#	Last revised on May 6, 2013
+#	Last revised on October 17, 2013
 #
 #
 
@@ -2321,7 +2667,12 @@ RCircos.Track.Outline<-function(out.pos, in.pos, num.layers)
 	RCircos.Pos <- RCircos.Get.Plot.Positions();
 	RCircos.Par <- RCircos.Get.Plot.Parameters();
 
-	subtrack.height <- RCircos.Par$track.height/num.layers;
+	#	Subtrack height. Note: Some times there may have 
+	#	more or less subtracks than defaul maximu layers
+	#	_________________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+	subtrack.height <- (out.pos-in.pos)/num.layers;#	RCircos.Par$track.height/num.layers;
 
 	chroms <- unique(RCircos.Cyto$Chromosome);
 	for(a.chr in 1:length(chroms))
@@ -2334,14 +2685,14 @@ RCircos.Track.Outline<-function(out.pos, in.pos, num.layers)
 				RCircos.Pos[end:start,1]*in.pos);
 		polygon.y<- c(RCircos.Pos[start:end,2]*out.pos, 
 				RCircos.Pos[end:start,2]*in.pos);
-		polygon(polygon.x, polygon.y, col="wheat");
+		polygon(polygon.x, polygon.y, col=RCircos.Par$track.background);
 
-		for(a.line in 1:(RCircos.Par$sub.tracks-1))
+		for(a.line in 1:(num.layers-1))
 		{
 			height <- out.pos-a.line*subtrack.height;
 			lines(RCircos.Pos[start:end,1]*height, 
 				RCircos.Pos[start:end,2]*height,
-				col=RCircos.Par$track.background);
+				col=RCircos.Par$grid.line.color);
 		}
 	}
 }
@@ -2500,7 +2851,8 @@ RCircos.Get.Gene.Label.Locations<-function(genomic.data)
 # 
 #  	<INTERNAL USE><INTERNAL USE><INTERNAL USE><INTERNAL USE><INTERNAL USE><INTERNAL USE><INTERNAL USE>
 #
-#	Draw a quandratic Bezier curve between two chromosome locations with the equation:  
+#	Calculate x and y coordinated for a quandratic Bezier curve between two chromosome locations with 
+#	the equation:  
 #
 #		B(t) = (1-t) ((1-t)P0 + tP1) + t((1-t)P1 + tP2)
 #
@@ -2513,16 +2865,17 @@ RCircos.Get.Gene.Label.Locations<-function(genomic.data)
 #
 #	line.start:	The point where Bezier line starts
 #	line.end: 	The point where Bezier line ends
-#	line.color:	An integer, the line color
+#
+#	Return value:	a list contianing x and y coordinates for a quandratic Bezier curve
 #
 #	Example:	internal use only
 #
 #
-#	Last revised on May 8, 2013
+#	Last revised on June 13, 2013
 #
 #
 
-RCircos.Link.Line<-function(line.start, line.end, line.color)
+RCircos.Link.Line<-function(line.start, line.end)
 {	
 	#	Set up the points for Bezure curve
 	#	___________________________________________
@@ -2549,17 +2902,263 @@ RCircos.Link.Line<-function(line.start, line.end, line.color)
 	link.y <- (1-t)^2*P0[2] + t^2*P2[2];
 
 
-	#	Draw Bezuer curve
+	#	Return the coordinates
 	#	___________________________________________
 	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 	
-	lines(link.x, link.y, type="l", col=line.color);
+	return (list(pos.x=link.x, pos.y=link.y));
 }
 
 
+
+
+# 	_____________________________________________________________________________________________________
+#	<I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I>
+# 
+#  	<INTERNAL USE><INTERNAL USE><INTERNAL USE><INTERNAL USE><INTERNAL USE><INTERNAL USE><INTERNAL USE>
+#
+#	Create color map for heatmap plot
+#
+#  	Arguments:	colormap
+#
+#			BlueWhiteRed: 	colors from blue to white then red
+#			GreenWhiteRed:	colors from green to white then red
+#			GreenYellowRed: colors from green to yellow then red
+#			GreenBlackRed:	colors from green to black then red
+#			YellowToRed:	colors from yellow to red
+#			BlackOnly:	default black colors
 #
 #
-#	Last revised on May 8, 2013
+#	Example:	internal use only
+#
+#
+#	Last revised on October 28, 2013
+#
+
+RCircos.Get.Heatmap.ColorScales<-function(heatmap.color)
+{
+	#	Blue, White, and Red
+	#	_________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+	if(heatmap.color=="BlueWhiteRed") {
+
+		RedRamp <- rgb( seq(1, 1, length=256), 
+				seq(1, 0, length=256), 
+				seq(1, 0, length=256)) ;
+ 
+		BlueRamp <- rgb(seq(0, 1, length=256), 
+				seq(0, 1, length=256),  
+				seq(1, 1, length=256));	
+	
+		ColorRamp <- cbind(BlueRamp, RedRamp);
+
+
+	#	Green, White, and Red
+	#	_________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+	} else if (heatmap.color=="GreenWhiteRed") {
+
+		RedRamp <- rgb( seq(1, 1, length=256),  
+				seq(1, 0, length=256),  
+				seq(1, 0, length=256) );
+ 
+		GreenRamp <- rgb(seq(0, 1, length=256),  
+				 seq(1, 1, length=256),  
+				 seq(0, 1, length=256));
+	
+		ColorRamp <- cbind(GreenRamp, RedRamp);
+
+
+
+	#	Green, Yellow, and Red
+	#	_________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+	} else if (heatmap.color=="GreenYellowRed"){
+
+		RedRamp <- rgb( seq(1, 1, length=256),  
+				seq(1, 0, length=256),  
+				seq(0, 0, length=256) );
+ 
+		GreenRamp <- rgb(seq(0, 1, length=256),  
+				 seq(1, 1, length=256),  
+				 seq(0, 0, length=256));
+	
+		ColorRamp <- cbind(GreenRamp, RedRamp);
+
+
+
+	#	Green, Black, and Red
+	#	_______________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+	} else if (heatmap.color=="GreenBlackRed"){
+
+		RedRamp <- rgb( seq(0, 1, length=256),  
+				seq(0, 0, length=256),  
+				seq(0, 0, length=256) );
+ 
+		GreenRamp <- rgb(seq(0, 0, length=256),  
+				 seq(1, 0, length=256),  
+				 seq(0, 0, length=256));
+	
+		ColorRamp <- cbind(GreenRamp, RedRamp);
+
+
+	#	Yellow to Red
+	#	_________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+
+	} else if (heatmap.color=="YellowToRed") {
+	
+		ColorRamp <- rgb( seq(1, 1, length=256),  
+				  seq(1, 0, length=256),  
+				  seq(0, 0, length=256) );
+
+
+	#	black only
+	#	_________________________________________
+	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+	} else {
+		ColorRamp <- rgb( seq(1, 0, length=256),  
+				  seq(1, 0, length=256),  
+				  seq(1, 0, length=256) );
+	}
+
+	return (ColorRamp);
+}
+
+
+
+
+# 	_____________________________________________________________________________________________________
+#	<I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I>
+# 
+#  	<INTERNAL USE><INTERNAL USE><INTERNAL USE><INTERNAL USE><INTERNAL USE><INTERNAL USE><INTERNAL USE>
+#
+#	Get plot color for each data point
+#
+#  	Arguments:	
+#
+#	plot.data:	data frame of genomic data
+#	color: 		color names
+#
+#
+#	Example:	internal use only
+#
+#	Returned value:	vector of color names with length same as number of rows in input data
+#
+#	Last revised on October 18, 2013
+#
+
+RCircos.Get.Plot.Colors<-function(plot.data, color)
+{
+        color.col <- grep("PlotColor", colnames(plot.data));
+
+        if(length(color.col)==0)
+        {  
+                plot.colors <- rep(color, nrow(plot.data)); 
+        } else if(length(color.col)==1) { 
+                plot.colors <- as.character(plot.data[, color.col]); 
+        } else { 
+                stop("Incorrect plot colors defined in dataset.\n");
+        }
+
+        return (plot.colors);
+}
+
+
+
+
+
+# 	_____________________________________________________________________________________________________
+#	<I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I>
+# 
+#  	<INTERNAL USE><INTERNAL USE><INTERNAL USE><INTERNAL USE><INTERNAL USE><INTERNAL USE><INTERNAL USE>
+#
+#	Get plot color for each link line or ribbon
+#
+#  	Arguments:	
+#
+#	plot.data:	data frame of paired genomic position data
+#	by.chromosome: 	Logic, if TRUE, read color is used for links on same chromosome and blue color is 
+#			used for linke between different chromosomes. If FALSE, user defined colors or 
+#			rainbow colors will be used.
+#
+#	Example:	internal use only
+#
+#	Returned value:	vector of color names with length same as number of rows in input data
+#
+#	Last revised on October 28, 2013
+#
+
+RCircos.Get.Link.Colors<-function(link.data, by.chromosome)
+{
+        red.color <- rgb(1,0,0, alpha=0.5);
+        blue.color <- rgb(0, 0, 1, alpha=0.5);
+
+        #       Default colors
+        #       ______________________________________________________
+        #       xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        link.colors <- rep(blue.color, nrow(link.data));
+
+
+        #       If by.chromosome is set to true, red color will be used 
+        #       for links in same chromosome and blue color for links 
+        #       between different chromosomes
+        #    __________________________________________________________
+        #    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        if(by.chromosome==TRUE) {
+
+                for(a.row in 1:nrow(link.data))
+                {
+                        if(link.data[a.row, 1]==link.data[a.row, 4]) 
+                        { link.colors[a.row] <- red.color; } 
+                }
+
+
+        #       If the plot color is provided in dataset, use it to
+        #       replace the default one (rainbow)
+        #    __________________________________________________________
+        #    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        } else {
+                color.col <- grep("PlotColor", colnames(link.data));
+
+                if(length(color.col==1)) 
+                {
+                        the.color <- as.character(link.data[, color.col]);
+                        for(a.row in 1:length(the.color))
+                        {
+                                rgb.val <- as.vector(col2rgb(the.color[a.row]))/255;
+                                link.colors[a.row] <- rgb(red=rgb.val[1], 
+                                        green=rgb.val[2], blue=rgb.val[3], alpha=0.5);
+                        }
+                } else {
+                        for(a.row in 1:nrow(link.data))
+                        {
+                                rgb.val <- as.vector(col2rgb(a.row+1))/255;
+                                link.colors[a.row] <- rgb(red=rgb.val[1], 
+                                        green=rgb.val[2], blue=rgb.val[3], alpha=0.5);
+                        }
+
+                }
+        }
+
+        return (link.colors);
+}
+
+
+
+#
+#
+#	Last revised on October 28, 2013
 # 	______________________________________________________________________________________________________
 #	<I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I><I>
 

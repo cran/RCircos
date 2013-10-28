@@ -12,8 +12,7 @@
 # <><RCircos DEMO><RCircos DEMO><RCircos DEMO><RCircos DEMO><RCircos DEMO><RCircos DEMO><>
 
 
-RCircos.Heatmap.Demo<-function()
-{
+
 	#	Load RCircos library
 	#  	_________________________________________________________________
 	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -34,7 +33,7 @@ RCircos.Heatmap.Demo<-function()
 	#  	_________________________________________________________________
 	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-	RCircos.Set.Core.Components(cyto.info, NULL, 10, 0);
+	RCircos.Set.Core.Components(cyto.info, NULL, 5, 0);
 
 
 	#	Open the graphic device (here a pdf file)
@@ -78,8 +77,5 @@ RCircos.Heatmap.Demo<-function()
 	cat("RCircos Heatmap demo done!\n");
 
 	rm(list=ls(all=T));
-}
-	
 
-RCircos.Heatmap.Demo();
 

@@ -10,8 +10,7 @@
 #	========================================================
 
 
-RCircos.Line.Plot.Demo<-function()
-{
+
 	#	Load RCircos library
 	#  	_________________________________________________________________
 	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -44,7 +43,6 @@ RCircos.Line.Plot.Demo<-function()
 	pdf(file=out.file, height=8, width=8);
 
 	RCircos.Set.Plot.Area();
-	title("RCircos Line Plot Demo");
 
 
 	#	Draw chromosome ideogram
@@ -61,10 +59,16 @@ RCircos.Line.Plot.Demo<-function()
 	#  	_________________________________________________________________
 	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
+	line.data <- RCircos.Line.Data;
+	line.colors <- rep("blue", nrow(line.data))
+	rows <- which(abs(line.data$seg.mean)>=1.5);
+	line.colors[rows] <- "red";
+	line.data["PlotColor"] <- line.colors;
+
 	data.col <- 5; 
 	track.num <- 1;
 	direction <- "in";
-	RCircos.Line.Plot(RCircos.Line.Data, data.col, track.num, "in");
+	RCircos.Line.Plot(line.data, data.col, track.num, "in");
 
 
 	#	Close the graphic device and clear memory
@@ -75,9 +79,6 @@ RCircos.Line.Plot.Demo<-function()
 	print("RCircos Line Plot Demo Done!");
 
 	rm(list=ls(all=T));
-}
-	
-RCircos.Line.Plot.Demo();
 
 
 

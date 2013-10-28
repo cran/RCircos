@@ -12,8 +12,7 @@
 # <><RCircos DEMO><RCircos DEMO><RCircos DEMO><RCircos DEMO><RCircos DEMO><RCircos DEMO><>
 
 
-RCircos.Scatter.Plot.Demo<-function()
-{
+
 	#	Load RCircos library
 	#  	_________________________________________________________________
 	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -54,7 +53,7 @@ RCircos.Scatter.Plot.Demo<-function()
 	cat("Draw chromosome ideogram ...\n");
 
 	RCircos.Chromosome.Ideogram.Plot();
-	title("RCircos Scatterplot Demo");
+	title("RCircos Scatter Plot Demo");
 
 
 
@@ -62,9 +61,16 @@ RCircos.Scatter.Plot.Demo<-function()
 	#  	_________________________________________________________________
 	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
+	scatter.data <- RCircos.Scatter.Data;
+	scatter.colors <- rep("cyan", nrow(scatter.data));
+	scatter.colors[which(scatter.data$seg.mean>=2)] <- "red";
+	scatter.colors[which(scatter.data$seg.mean<=-2)] <- "blue";
+	scatter.data["PlotColor"] <- scatter.colors;
+
+
 	data.col <- 5;
 	track.num <- 6; 
-	RCircos.Scatter.Plot(RCircos.Scatter.Data, data.col, track.num, "in", 1);
+	RCircos.Scatter.Plot(scatter.data, data.col, track.num, "in", 1);
 
 
 
@@ -75,8 +81,3 @@ RCircos.Scatter.Plot.Demo<-function()
 	dev.off();	print("RCircos Scatter Plot Demo Done!");
 
 	rm(list=ls(all=T));
-}
-	
-
-RCircos.Scatter.Plot.Demo();
-
