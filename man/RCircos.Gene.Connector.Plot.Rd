@@ -4,7 +4,7 @@
 Draw Connectors between Chromosome Ideogram and Gene Names
 }
 \description{
-Draw a set of connectors (three lines for each connector) between chromosome ideogram and gene names. RCircos core components and graphics device must be initialized before drawing.
+Draw a set of connectors (three lines for each connector) between chromosome ideogram or a data track and gene names. RCircos core components and graphics device must be initialized before drawing.
 }
 \usage{
 RCircos.Gene.Connector.Plot(genomic.data, track.num, side)

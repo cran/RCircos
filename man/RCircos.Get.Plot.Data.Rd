@@ -6,7 +6,7 @@ Convert Genomic Data to RCircos Plot Data
 \description{
 This function calculates the RCircos plot positions for genomic positions of the dataset. RCircos plot position is the row index of matrix that contains x- and y-coordinates of a circular line. A new column for RCircos plot positions is appended to the input genomic.data and returned.
 
-This function is for internal use.
+This function is mainly for internal use.
 }
 \usage{
 RCircos.Get.Plot.Data(genomic.data, plot.type)

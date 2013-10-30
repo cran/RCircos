@@ -2,7 +2,7 @@
 \alias{RCircos.Link.Data}
 \docType{data}
 \title{
-Sample Data for Circos Link Plot 
+Sample Data for RCircos Link Plot 
 }
 \description{
 A data frame containing paired genomic position data for each row. The content of each row must be in the order of name, start and end position of chromosome A then name, start and end position of chromosome B. This data frame is directly used to draw link lines without extra processing.  

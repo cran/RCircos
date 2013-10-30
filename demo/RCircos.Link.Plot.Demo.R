@@ -13,8 +13,7 @@
 
 
 
-RCircos.Link.Plot.Demo<-function()
-{
+
 
 	#	Load RCircos library
 	#  	_________________________________________________________________
@@ -68,8 +67,14 @@ RCircos.Link.Plot.Demo<-function()
 
 	cat("Add link track ...\n");
 	
-	track.num <- 11;
-	RCircos.Link.Plot(RCircos.Link.Data, track.num, FALSE);
+	link.data <- RCircos.Link.Data;
+	link.colors <- rep("blue", nrow(link.data));
+	rows <- seq(1, nrow(link.data), by=5);
+	link.colors[rows] <- "red";
+	link.data["PlotColor"] <- link.colors;
+
+	track.num <- 2;
+	RCircos.Link.Plot(link.data, track.num, FALSE);
 
 
 	#	Close the graphic device and clear memory
@@ -80,8 +85,4 @@ RCircos.Link.Plot.Demo<-function()
 	print("RCircos Link Plot Demo Done!");
 
 	rm(list=ls(all=T));
-}
-	
-
-RCircos.Link.Plot.Demo();
 

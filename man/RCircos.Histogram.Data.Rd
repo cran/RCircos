@@ -2,7 +2,7 @@
 \alias{RCircos.Histogram.Data}
 \docType{data}
 \title{
-Sample Data for Circos Histogram Plot 
+Sample Data for RCircos Histogram Plot 
 }
 \description{
 A dataset with the first three columns as chromosome names, start position, and end position followed by a column of histogram data. 

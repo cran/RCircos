@@ -2,7 +2,7 @@
 \alias{RCircos.Line.Data}
 \docType{data}
 \title{
-Sample Data for Circos Line Plot 
+Sample Data for RCircos Line Plot 
 }
 \description{
 A data frame with the first three columns as chromosome name, start and end position followed by columns of DNA copy number variant data (num.mark and seg.mean).  

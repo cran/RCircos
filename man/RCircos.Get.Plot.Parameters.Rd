@@ -4,7 +4,7 @@
 Get All RCircos Plot Parameters
 }
 \description{
-Get all parameters used during current RCircos session in order to check and reset plot parameters. RCircos core components must be initialized first.
+Get all parameters used in current RCircos session in order to check and reset plot parameters. RCircos core components must be initialized first.
 }
 \usage{
 RCircos.Get.Plot.Parameters()

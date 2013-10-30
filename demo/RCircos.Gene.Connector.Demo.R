@@ -15,8 +15,7 @@
 
 
 
-RCircos.Gene.Connector.Demo<-function()
-{
+
 	#	Load RCircos package and defined parameters
 	#  	_________________________________________________________________
 	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -37,7 +36,7 @@ RCircos.Gene.Connector.Demo<-function()
 	#  	_________________________________________________________________
 	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-	RCircos.Set.Core.Components(cyto.info, NULL, 10, 0);
+	RCircos.Set.Core.Components(cyto.info, NULL, 5, 0);
 
 
 	#	Ready to make Circos plot image. Open the graphic device (pdf file)	
@@ -48,7 +47,7 @@ RCircos.Gene.Connector.Demo<-function()
 	pdf(file=out.file, height=8, width=8);
 
 	RCircos.Set.Plot.Area();
-	title("RCircos Gene Label and Connector Demo");
+	title("RCircos Gene and Connector Plot Demo");
 
 
 	#	Draw chromosome ideogram
@@ -66,13 +65,24 @@ RCircos.Gene.Connector.Demo<-function()
 	cat("Add Gene and connector tracks ...\n");
 	data(RCircos.Gene.Label.Data);
 
+	direction <- "in";
 	track.num <- 1;
 	RCircos.Gene.Connector.Plot(RCircos.Gene.Label.Data, 
-			track.num, "in");
+			track.num, direction);
+
+	gene.data <- RCircos.Gene.Label.Data;
+	gene.colors <- rep("black", nrow(gene.data))
+	gene.colors[which(gene.data$Gene=="TP53")] <- "red";
+	gene.colors[which(gene.data$Gene=="BRCA2")] <- "red";
+	gene.colors[which(gene.data$Gene=="RB1")] <- "red";
+	gene.colors[which(gene.data$Gene=="JAK1")] <- "blue";
+	gene.colors[which(gene.data$Gene=="JAK2")] <- "blue";
+
+	gene.data["PlotColor"] <- gene.colors;
+
 	name.col <- 4;
 	track.num <- 2;
-	RCircos.Gene.Name.Plot(RCircos.Gene.Label.Data, name.col, 
-			track.num, "in");
+	RCircos.Gene.Name.Plot(gene.data, name.col, track.num, direction);
 
 
 	#	Close the graphic device and clear memory
@@ -82,6 +92,4 @@ RCircos.Gene.Connector.Demo<-function()
 	dev.off();
 	cat("R Circos Demo Done ...\n\n");
 	rm(list=ls(all=T));
-}
 
-RCircos.Gene.Connector.Demo();

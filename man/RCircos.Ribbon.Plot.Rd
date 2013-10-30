@@ -1,23 +1,26 @@
-\name{RCircos.Link.Plot}
-\alias{RCircos.Link.Plot}
+\name{RCircos.Ribbon.Plot}
+\alias{RCircos.Ribbon.Plot}
 \title{
-Circos-like Link Line Plot
+Draw Ribbon between Two Genomic Regions
 }
 \description{
-Draw lines (quandratic Bezier curves) between paired genomic positions. RCircos core components and graphic device must be initialize before drawing. Link lines are always in the center of plot area.
+Draw various ribbons instead of lines with uniform thickness. The thickness of ribbons are relative to the size of the genomic regions to be linked. 
 }
 \usage{
-RCircos.Link.Plot(link.data, track.num, by.chromosome = FALSE)
+RCircos.Ribbon.Plot(ribbon.data, track.num, by.chromosome = FALSE, twist = FALSE)
 }
 \arguments{
-  \item{link.data}{
-A data frame with paired genomic positions in each row. The first three columns are for chromosome names, start and end position of one genomic position followed by three columns for chromosome names, start and end position of the second genomic position. 
+  \item{ribbon.data}{
+A data frame with paired genomic positions in each row. The first three columns of each row are for chromosome name, start and end positions of one genomic position followed by three columns for chromosome name, start and end positions of the second genomic position. 
 }
   \item{track.num}{
-Integer, representing the ordinal number of the plot track where the link lines will start.
+Integer, representing the ordinal number of the plot track where the ribbons will start.
 }
   \item{by.chromosome}{
-Logic. If true, red color will be used for links between positions of same chromosomes and blue color for links between different chromosomes. Otherwise, user defined or random colors (rainbow) will be automatically assigned for each line.
+Logic, If true, red color will be used for ribbons between positions of same chromosomes and blue color for ribbons between different chromosomes. Otherwise, different colors will be automatically assigned for each ribbon.
+}
+  \item{twist}{
+Logic, TRUE for the ribbons with twisted shape and FALSE for no twist.
 }
 }
 \author{
@@ -37,6 +40,7 @@ library(RCircos);
 
 data(UCSC.HG19.Human.CytoBandIdeogram);
 data(RCircos.Link.Data);
+data(RCircos.Ribbon.Data);
 
 
 # Set RCircso core components
@@ -62,5 +66,7 @@ num.outside <- 0;
 track.num <- 4;
 \dontrun{RCircos.Link.Plot(RCircos.Link.Data,  
                     track.num, TRUE); }
+\dontrun{RCircos.Ribbon.Plot(RCircos.Ribbon.Data,  
+                    track.num, FALSE, FALSE); }
 }
 \keyword{ methods }

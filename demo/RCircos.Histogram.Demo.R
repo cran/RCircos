@@ -13,8 +13,7 @@
 # <><RCircos DEMO><RCircos DEMO><RCircos DEMO><RCircos DEMO><RCircos DEMO><RCircos DEMO><>
 
 
-RCircos.Histogram.Demo<-function()
-{
+
 	#	Load RCircos package and defined parameters
 	#  	_________________________________________________________________
 	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -59,12 +58,17 @@ RCircos.Histogram.Demo<-function()
 
 
 	#	Plot histogram Inside of chromosome ideogram
-	#  	_________________________________________________________________
-	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+	#	********************************************
+
+	hist.data <- RCircos.Histogram.Data;
+	hist.colors <- rep("blue", nrow(hist.data))
+	rows <- which(hist.data$Data>0.4)
+	hist.colors[rows] <- "red";
+	hist.data["PlotColor"] <- hist.colors;
 
 	data.col <- 4; 
 	track.num <- 1;
-	RCircos.Histogram.Plot(RCircos.Histogram.Data, data.col, track.num, "in");
+	RCircos.Histogram.Plot(hist.data, data.col, track.num, "in");
 
 
 	#	Close the graphic device and clear memory
@@ -74,7 +78,3 @@ RCircos.Histogram.Demo<-function()
 	dev.off();
 	print("RCircos Histogram Demo Done!");
 	rm(list=ls(all=T));
-}
-	
-RCircos.Histogram.Demo();
-

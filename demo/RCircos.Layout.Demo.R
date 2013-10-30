@@ -12,8 +12,7 @@
 # <><RCircos DEMO><RCircos DEMO><RCircos DEMO><RCircos DEMO><RCircos DEMO><RCircos DEMO><>
 
 
-RCircos.Layout.Demo<-function()
-{
+
 	#	Load RCircos library
 	#  	_________________________________________________________________
 	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -38,6 +37,9 @@ RCircos.Layout.Demo<-function()
 
 
 	#	Open the graphic device (here a pdf file)
+	#
+	#	png(file="RCircos.Layout.Demo.png", height=8, width=8, unit="in", 
+	#		type="cairo", res=300);
 	#  	_________________________________________________________________
 	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 	
@@ -58,10 +60,9 @@ RCircos.Layout.Demo<-function()
 
 
 
-	#	Marking plot areas both inside and outside of chromosome ideogram
-	#	( 3 for each)
-	#  	_________________________________________________________________
-	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+	#	Marking plot areas both inside and outside of
+	#	chromosome ideogram ( 3 for each)
+	#	********************************************
 	total.track <- 3;
 	subtrack <- 5;
 
@@ -100,9 +101,5 @@ RCircos.Layout.Demo<-function()
 	print("RCircos Layout Demo Done!");
 
 	rm(list=ls(all=T));
-}
-	
-
-RCircos.Layout.Demo();
 
 
