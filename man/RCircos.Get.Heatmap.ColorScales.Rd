@@ -29,6 +29,6 @@ A vector or two column matrix of rgb colors.
 Hongen Zhang
 }
 \examples{
-\dontrun{colorScales <- RCircos.Get.Heatmap.ColorScales(heatmap.color);}
+\dontrun{colorScales <- RCircos.Get.Heatmap.ColorScales(heatmap.colors);}
 }
 \keyword{ methods }

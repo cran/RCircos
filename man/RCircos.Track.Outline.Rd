@@ -7,7 +7,7 @@ Draw Outline for A Data Plot Track
 Draw outline with subtracks for one data plot track. RCircos core components and graphic device must be initialized first. This function is mainly for internal use.
 }
 \usage{
-RCircos.Track.Outline(out.pos, in.pos, num.layers)
+RCircos.Track.Outline(out.pos, in.pos, num.layers, chrom.list)
 }
 \arguments{
   \item{out.pos}{
@@ -18,6 +18,9 @@ Float number, the inside position of a data track.
 }
   \item{num.layers}{
 Integer, total number of subtrack in a data plot track.
+}
+ \item{chrom.list}{
+Character vector for chromosome names to be included. Set to NULL to use all chromosomes.
 }
 }
 \author{
@@ -48,7 +51,7 @@ chr.exclude <- c("chrX", "chrY");
 tracks.inside <- 5;
 tracks.outside <- 0;
 \dontrun{RCircos.Set.Core.Components(cyto.info,  
-            chr.exclude, num.inside, num.outside); }
+     chr.exclude, tracks.inside, tracks.outside); }
 
 
 
@@ -65,13 +68,11 @@ tracks.outside <- 0;
 # __________________________________________________
 # xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-side <- "in";
-track.num <- 1;
-locations <- RCircos.Track.Positions(side, track.num);  
+\dontrun{
+locations <- RCircos.Track.Positions(side="in", track.num=1);  
 out.pos <- locations[1];
-in.pos <- locations[2];
+in.pos  <- locations[2];
 subtracks <- 5;
-\dontrun{RCircos.Track.Outline(out.pos, in.pos,  
-                      subtracks); }
+RCircos.Track.Outline(out.pos, in.pos, subtracks, NULL); }
 }
 \keyword{ methods }

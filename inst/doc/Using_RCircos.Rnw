@@ -18,7 +18,7 @@
 \author{Hongen Zhang, Ph.D.\\
 Genetics Branch, Center for Cancer Research,\\
 National Cancer Institute, NIH}
-\date{October 28, 2013}
+\date{December 18, 2015}
 \maketitle
 
 \tableofcontents
@@ -89,8 +89,7 @@ Starting  from version 1.1.2, user can append to input data a column of plot col
 
 RCircos follows the same algorithm of Circos plot and arranges data plots in tracks. A track could be placed either inside or outside of chromosome ideogram and the detailed position for a track could be easily manipulated by changing of the track width and track numbers. \\
 \\
-The figure below shows a human chromosome ideogram plus three empty tracks arranged in both inside and outside of chromosome ideogram.\\
-\\
+The figure below shows a human chromosome ideogram plus three empty tracks arranged in both inside and outside of chromosome ideogram.
 
 \includegraphics[width=\textwidth]{RCircosLayoutDemo.png}
 

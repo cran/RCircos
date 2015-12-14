@@ -1,197 +1,135 @@
-# ________________________________________________________________________________________
-# <><RCircos DEMO><RCircos DEMO><RCircos DEMO><RCircos DEMO><RCircos DEMO><RCircos DEMO><>
+# ______________________________________________________________________
+# <RCircos DEMO><RCircos DEMO><RCircos DEMO><RCircos DEMO><RCircos DEMO>
 #
-#	This demo draw human chromosome ideogram and data tracks for:
+#   This demo draw human chromosome ideogram and data tracks for:
 #
-#	1.	Connectors
-#	2.	Gene lables
-#	3.	Heatmap
-#	4.	Scatterplot 
-#	5.	Line plot
-#	6.	Histogram
-#	7.	Tile plot
-#	8.	Link lines
-#
-# ________________________________________________________________________________________
-# <><RCircos DEMO><RCircos DEMO><RCircos DEMO><RCircos DEMO><RCircos DEMO><RCircos DEMO><>
+#       1.  Connectors
+#       2.  Gene lables
+#       3.  Heatmap
+#       4.  Scatterplot 
+#       5.  Line plot
+#       6.  Histogram
+#       7.  Tile plot
+#       8.  Link lines
+#       9.  Ribbons
+#   ______________________________________________________________________
+#   <RCircos DEMO><RCircos DEMO><RCircos DEMO><RCircos DEMO><RCircos DEMO>
 
 
 
-	#	Load RCircos package and defined parameters
-	#  	_________________________________________________________________
-	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-	
-	library(RCircos);
+    #   Load RCircos package and defined parameters
+    #   ===========================================
+    library(RCircos);
 
+    #   Load human cytoband data 
+    #   ===========================================
 
+    data(UCSC.HG19.Human.CytoBandIdeogram);
+    hg19.cyto <- UCSC.HG19.Human.CytoBandIdeogram;
 
-	#	Load human cytoband data 
-	#  	_________________________________________________________________
-	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    #   Setup RCircos core components:
+    #
+    #   1.  Chromosome ideogram plot information
+    #   2.  x and y coordinates for a circular line and degrees 
+    #       of the text rotation at each point
+    #   3.  Plot parameters for image plot control
+    #  
+    #   ======================================================
 
-	data(UCSC.HG19.Human.CytoBandIdeogram);
-	hg19.cyto <- UCSC.HG19.Human.CytoBandIdeogram;
+    RCircos.Set.Core.Components(cyto.info=hg19.cyto, 
+        chr.exclude=NULL, tracks.inside=10, tracks.outside=0);
 
+    #   Open the graphic device (here a pdf file)
+    #  
+    #   ======================================================
+    message("Open graphic device and start plot ...");
+    pdf(file="RCircos.Demo.Human.pdf", height=8, width=8);
 
-	#	Setup RCircos core components:
-	#
-	#	1. Chromosome ideogram plot information
-	#	2. x and y coordinates for a circular line and degrees of the
-	#		text rotation at each point
-	#	3. Plot parameters for image plot control
-	#  
-	#	These components will be stored in RCircos environment
-	#
-	#	Function arguments:
-	#
-	#	Chromosome ideogram data loaded above
-	#	Chromosomes need be excluded from cytoinfo
-	#	Number of tracks inside chromosome ideogram
-	#	Number of tracks inside chromosome ideogram
-	#  	_________________________________________________________________
-	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    RCircos.Set.Plot.Area();
+    title("RCircos 2D Track Plot with Human Genome");
 
-	RCircos.Set.Core.Components(cyto.info=hg19.cyto, chr.exclude=NULL, 
-			tracks.inside=10, tracks.outside=0);
+    #   Draw chromosome ideogram
+    #  
+    #   ======================================================
+    message("Draw chromosome ideogram ...");
+    RCircos.Chromosome.Ideogram.Plot();
 
+    #   Connectors and gene names 
+    #   ======================================================
+    message("Add Gene and connector tracks ...");
+    data(RCircos.Gene.Label.Data);
 
+    RCircos.Gene.Connector.Plot(genomic.data=RCircos.Gene.Label.Data, 
+                        track.num=1, side="in");
+    RCircos.Gene.Name.Plot(gene.data=RCircos.Gene.Label.Data, 
+                        name.col=4, track.num=2, side="in");
 
-	#	Open the graphic device (here a pdf file)
-	#
-	# 	png(file="RCircos.Demo.Human.png", height=8, width=8, unit="in", 
-	#		type="cairo", res=300);
-	#
- 	#	tiff(file="RCircos.Demo.Human.tif", height=8, width=8, unit="in", 
-	#		type="cairo", res=300);
-	#  	_________________________________________________________________
-	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    #   Heatmap plot.  Since some gene names plotted above are 
+    #   wider than one track height, we skip two tracks 
+    #   ======================================================
+    message("Add heatmap track ...");
 
-	cat("Open graphic device and start plot ...\n");
-	pdf(file="RCircos.Demo.Human.pdf", height=8, width=8);
+    data(RCircos.Heatmap.Data);
+    RCircos.Heatmap.Plot(heatmap.data=RCircos.Heatmap.Data, 
+            data.col=6, track.num=5, side="in");
 
-	RCircos.Set.Plot.Area();
-	title("RCircos 2D Track Plot with Human Genome");
+    #   Scatterplot
+    #   ======================================================
+    message("Add scatterplot track ...");
 
+    data(RCircos.Scatter.Data);
+    RCircos.Scatter.Plot(scatter.data=RCircos.Scatter.Data, 
+            data.col=5, track.num=6, side="in", by.fold=1);
 
+    #   Line plot.
+    #   ======================================================
+    message("Add line plot track ...");
 
-	#	Draw chromosome ideogram
-	#  	_________________________________________________________________
-	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    data(RCircos.Line.Data);
+    RCircos.Line.Plot(line.data=RCircos.Line.Data, data.col=5, 
+            track.num=7, side="in");
 
-	cat("Draw chromosome ideogram ...\n");
-	RCircos.Chromosome.Ideogram.Plot();
+    #   Histogram plot
+    #   ======================================================
+    message("Add histogram track ...");
 
+    data(RCircos.Histogram.Data);
+    RCircos.Histogram.Plot(hist.data=RCircos.Histogram.Data, 
+            data.col=4, track.num=8, side="in");
 
+    #   Tile plot. Note: tile plot data have only chromosome 
+    #   locations and each data file is for one track
+    #   ======================================================
+    message("Add tile track ...");
 
-	#	Connectors in first track and gene names in the second track. 
-	#  	_________________________________________________________________
-	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    data(RCircos.Tile.Data);
+    RCircos.Tile.Plot(tile.data=RCircos.Tile.Data, track.num=9, 
+                side="in");
 
-	cat("Add Gene and connector tracks ...\n");
-	data(RCircos.Gene.Label.Data);
+    #   Link lines. Link data has only paired chromosome 
+    #   locations in each row and link lines are always drawn 
+    #   inside of chromosome ideogram.
+    #   ======================================================
+    message("Add link track ...");
 
-	RCircos.Gene.Connector.Plot(genomic.data=RCircos.Gene.Label.Data, 
-			track.num=1, side="in");
-	RCircos.Gene.Name.Plot(gene.data=RCircos.Gene.Label.Data, name.col=4, 
-			track.num=2, side="in");
+    data(RCircos.Link.Data);
+    RCircos.Link.Plot(link.data=RCircos.Link.Data, track.num=11, 
+        by.chromosome=FALSE);
 
+    #   Add ribbon link to the center of plot area (link lines).
+    #   ======================================================
+    message("Add ribbons to link track ...");
 
-	#	Heatmap plot.  Since some gene names plotted above are longer 
-	#	than one track height, we skip two tracks 
-	#  	_________________________________________________________________
-	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    data(RCircos.Ribbon.Data);
+    RCircos.Ribbon.Plot(ribbon.data=RCircos.Ribbon.Data, 
+            track.num=11, by.chromosome=FALSE, twist=FALSE);
 
-	cat("Add heatmap track ...\n");
+    #   Close the graphic device and clear memory
+    #   ======================================================
 
-	data(RCircos.Heatmap.Data);
-	RCircos.Heatmap.Plot(heatmap.data=RCircos.Heatmap.Data, data.col=6, 
-			track.num=5, side="in");
-	
-		
+    dev.off();
+    message("R Circos Demo Done ...\n");
 
-	#	Scatterplot
-	#  	_________________________________________________________________
-	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
-	cat("Add scatterplot track ...\n");
-
-	data(RCircos.Scatter.Data);
-	RCircos.Scatter.Plot(scatter.data=RCircos.Scatter.Data, data.col=5, 
-			track.num=6, side="in", by.fold=1);
-
-
-
-	#	Line plot.
-	#  	_________________________________________________________________
-	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
-	cat("Add line plot track ...\n");
-
-	data(RCircos.Line.Data);
-	RCircos.Line.Plot(line.data=RCircos.Line.Data, data.col=5, 
-			track.num=7, side="in");
-
-
-
-	#	Histogram plot
-	#  	_________________________________________________________________
-	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
-	cat("Add histogram track ...\n");
-
-	data(RCircos.Histogram.Data);
-	RCircos.Histogram.Plot(hist.data=RCircos.Histogram.Data, data.col=4, 
-			track.num=8, side="in");
-
-
-
-	#	Tile plot. Note: tile plot data have chromosome locations and each
-	#	data file is for one track
-	#  	_________________________________________________________________
-	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
-	cat("Add tile track ...\n");
-
-	data(RCircos.Tile.Data);
-	RCircos.Tile.Plot(tile.data=RCircos.Tile.Data, track.num=9, side="in");
-
-
-
-	#	Link lines. Link data has only paired chromosome locations in
-	#	each row and link lines are always drawn inside of chromosome 
-	#	ideogram.
-	#  	_________________________________________________________________
-	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
-	cat("Add link track ...\n");
-	
-	data(RCircos.Link.Data);
-	RCircos.Link.Plot(link.data=RCircos.Link.Data, track.num=11, 
-				by.chromosome=FALSE);
-
-
-	
-	#	Add ribbon link to the center of plot area (link lines).
-	#  	_________________________________________________________________
-	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
-	cat("Add ribbons to link track ...\n");
-	
-	data(RCircos.Ribbon.Data);
-	RCircos.Ribbon.Plot(ribbon.data=RCircos.Ribbon.Data, track.num=11, 
-		by.chromosome=FALSE, twist=FALSE);
-
-
-
-
-
-	#	Close the graphic device and clear memory
-	#  	_________________________________________________________________
-	#	xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
-	dev.off();
-	cat("R Circos Demo Done ...\n\n");
-	rm(list=ls(all=T));
 
 
 
