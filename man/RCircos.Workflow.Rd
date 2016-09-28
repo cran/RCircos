@@ -1,20 +1,22 @@
 \name{RCircos.Workflow}
 \alias{RCircos.Workflow}
 \title{
-Print Out RCircos Workflow 
+A Simple RCircos Plot Workflow
 }
 \description{
-Display  RCircos plot workflow on stardard output device for a quick quide.
+Print out on screen to list procedures for a basic RCircos plot.
 }
 \usage{
 RCircos.Workflow()
 }
 \author{
-Hongen Zhang
+Henry Zhang
 }
 \examples{
-library(RCircos);
-RCircos.Workflow();
+\dontrun{
+library(RCircos)
+RCircos.Workflow()
+}
 }
 \keyword{ methods }
 

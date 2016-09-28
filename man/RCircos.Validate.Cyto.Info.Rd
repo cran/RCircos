@@ -1,26 +1,39 @@
 \name{RCircos.Validate.Cyto.Info}
 \alias{RCircos.Validate.Cyto.Info}
 \title{
-Validate Chromosome Ideogram Data
+Validate Chromosome Ideogram Information
 }
 \description{
-Validate chromosome ideogram information including of chromosome names, order of chromosomes, chromosome start and chromosome end positions for each chromosome band. This function is mainly for internal use.
+Validate chromosome ideogram information for correct chromosome order including of correct order of chromosome names, chromosome start, and end positions. The prefix of "chr" in chromosome names is no longer required version 1.2.
 }
 \usage{
-RCircos.Validate.Cyto.Info(cyto.info, chr.exclude)
+RCircos.Validate.Cyto.Info(cyto.info=NULL, chr.exclude=NULL, is.sorted=TRUE)
 }
 \arguments{
   \item{cyto.info}{
-A data frame with chromosome ideogram data includes chromosome names, start position, end position, band names, and stain intensity for each chromosome band.
+A data frame with chromosome ideogram data, e.g., an object returned by function of read.table() which read a file containing full information of cytoBandIdeo table from UCSC genome browser.
 }
   \item{chr.exclude}{
-Character vector of chromosome names to be excluded from plot, e.g., chr.exclude <- c("chrX", "chrY");
+Character vector, name(s) of chromosomes to be excluded from RCircos plot.
+}
+  \item{is.sorted}{
+Logic, whether the cyto.info has been sorted.
 }
 }
+
 \value{
-Data frame with validated chromosome ideogram information.
+A data frame with validated chromosome ideogram table.
 }
 \author{
-Hongen Zhang
+Henry Zhang
+}
+\examples{
+\dontrun{
+library(RCircos)
+data(UCSC.HG38.Human.CytoBandIdeogram)
+cyto.info <- RCircos.Validate.Cyto.Info(
+    cyto.info=UCSC.HG38.Human.CytoBandIdeogram,
+    chr.exclude=NULL, is.sorted=FALSE)
+}
 }
 \keyword{ methods }

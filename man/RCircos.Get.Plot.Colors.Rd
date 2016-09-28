@@ -7,7 +7,6 @@ Assign Plot Colors for Non-Link Data Plot
 Assign plot colors for each data point of genomic data except of link plot (link lines or ribbons). Users can define their own colors by appending a column with color names to plot data and give the column name as "PlotColor". Otherwise, default colors will be used.
 
 This function is for internal use only.
-
 }
 \usage{
 RCircos.Get.Plot.Colors(plot.data, color)
@@ -27,3 +26,4 @@ A vector of color names with length same as the rows of input data.
 Hongen Zhang
 }
 \keyword{ methods }
+

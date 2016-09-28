@@ -18,7 +18,7 @@
 \author{Hongen Zhang, Ph.D.\\
 Genetics Branch, Center for Cancer Research,\\
 National Cancer Institute, NIH}
-\date{December 18, 2015}
+\date{August 01, 2016}
 \maketitle
 
 \tableofcontents
@@ -145,17 +145,30 @@ RCircos plot positions are x and y coordinates for a circular line of radius 1.0
   \item[RCircos plot parameters] 
 RCircos plot parameters are only one core components open to users. With the get and reset methods, users can modify the parameters for updating other two core components. Following are RCircos plot parameters and their default values:
 \begin{description}
+\item[base.per.unit]
+Number of base pairs a chromosome unit (a plot point) will cover, default: 30000
+\item[chrom.paddings]
+Width of padding between two chromosomes in chromosome unit, default: 300
+(Note: chrom.paddings is binded to base.per.unit. It will be automatically updated if the base.per.unit is changed, unless be set to zero).
+\item[tracks.inside]
+Total number of data tracks inside of chromosome ideogram. Read-only.
+\item[tracks.outside]
+Total number of data tracks outside of chromosome ideogram. Read-only.
+
+\medskip 
+
 \item[radiu.len] 
 The radius of a circular line which serves as baseline for
 calculation of plot items, default: 1
-\item[chr.ideog.pos]
+\item[plot.radius]
+Radius of plot area,default: 1.5
+\item[chr.ideo.pos]
 Radius of chromosome ideogram position, default: 1.1
 \item[highlight.pos]
 Radius of chromosome ideogram highlights, default: 1.25
 \item[chr.name.po]
 Radius of chromosome name position, default: 1.4
-\item[plot.radius]
-Radius of plot area,default: 1.5
+
 \item[track.in.start]
 Radius of start position of the first track inside of chromosome idogram, default: 1.05
 \item[track.out.start]
@@ -169,48 +182,51 @@ Width of chromosomes of the ideogram, default: 0.1
 Width of padding between two plot tracks, default: 0.02
 \item[track.height]
 Height of data plot track, default: 0.1
- (Note: Parameters above are all relative to the radius.len and will be updated automatically when reset plot parameters with new radiu.len).
+ (Note: Parameters above are all relative to the radius.len and will be updated automatically if new radiu.len is reset.
 
-\smallskip  
-    
-\item[base.per.unit]
-Number of base pairs a chromosome unit (a plot point) will cover, default: 3000
-\item[chrom.paddings]
-Width of padding between two chromosomes in chromosome unit, default: 3000
-(Note: chrom.paddings is binded to base.per.unit. It will be automatically updated if the base.per.unit is changed, unless be set to zero).
 \medskip  
-\item[heatmap.width]
-Width of heatmap cells in chromosome unit, default: 1000  
+    
 \item[hist.width]
-Width of histogram column in chromosome unit, default: 1000
-\item[color.map]
-Color scales for heatmap plot, default: BlueWhiteRed
-\smallskip
- 
+Width of histogram column in chromosome unit, default: 100
+\item[heatmap.width]
+Width of heatmap cells in chromosome unit, default: 100  
 \item[text.size]
 Character size (same as cex in R graphics package) for text plot, default: 0.4
+\item[char.width]
+Width of a charater on RCircos plot, default 500 (chromosome unit)
 \item[highlight.width]
 Line type (same as lty in R graphics package) for chromosome highlight, default: 2
-\item[point.type]
-Point type (same as pch in R graphics package) for scatter plot, default: "."
 \item[point.size]
 Point size (same as cex in R graphics package) for scatter plot, default: 1
-\item[hist.color]
-Color for histgram plot, default: red
-\item[tile.color]
-Color for tile plot, default: black
-\item[track.background]
-Color of track background, default: wheat
-\item[grid.line.color]
-Color for track grids, default: gray
 \item[Bezier.point]
 Total number of points for a link(Bezier) line default: 1000
 \item[max.layers]
 Maximum number of layers for tile plot, default: 5
 \item[sub.tracks]
 Number of sub tracks in a data track, default: 5
-\end{description}
+\smallskip
 
+\item[text.color]
+Color for text plot, default: black
+\item[hist.color]
+Color for histgram plot, default: red
+\item[line.color]
+Color for line plot, default: black
+\item[scatter.color]
+Color for scatter plot, default: black
+\item[tile.color]
+Color for tile plot, default: black
+\item[track.background]
+Color of track background, default: wheat
+\item[grid.line.color]
+Color for track grids, default: gray
+\smallskip
+
+\item[heatmap.color]
+Color scales for heatmap plot, default: BlueWhiteRed
+\item[point.type]
+Point type (same as pch in R graphics package) for scatter plot, default: "."
+\end{description}
 \end{description}
 
 The core components are stored in RCircos session and each component is supplied with one Get method for advanced usage. In addition, simply call the function RCircos.List.Parameters() will list all current plot parameters.
@@ -222,7 +238,7 @@ rcircos.position <- RCircos.Get.Plot.Positions();
 @
 
 <<>>=
-RCircos.List.Parameters()
+RCircos.List.Plot.Parameters()
 @
 
 
@@ -232,12 +248,12 @@ Among the three RCircos core components, RCircos cytoband data and RCircos plot 
 
 <<>>=
 rcircos.params <- RCircos.Get.Plot.Parameters();
-rcircos.params$base.per.unit <- 30000;
+rcircos.params$base.per.unit <- 3000;
 RCircos.Reset.Plot.Parameters(rcircos.params);
 @
 
 <<>>=
-RCircos.List.Parameters();
+RCircos.List.Plot.Parameters();
 @
 
 
@@ -289,11 +305,11 @@ side <- "in";
 
 track.num <- 1;
 RCircos.Gene.Connector.Plot(RCircos.Gene.Label.Data,
-			track.num, side);
+        track.num, side);
 
 track.num <- 2;
 RCircos.Gene.Name.Plot(RCircos.Gene.Label.Data, 
-			name.col,track.num, side);
+        name.col,track.num, side);
 @
 
 
@@ -309,7 +325,7 @@ data.col <- 6;
 track.num <- 5;	
 side <- "in";
 RCircos.Heatmap.Plot(RCircos.Heatmap.Data, data.col, 
-			track.num, side);
+    track.num, side);
 @
 
 <<eval=FALSE>>=
@@ -319,7 +335,7 @@ track.num <- 6;
 side <- "in";
 by.fold <- 1;
 RCircos.Scatter.Plot(RCircos.Scatter.Data, data.col, 
-			track.num, side, by.fold);
+    track.num, side, by.fold);
 @
 
 <<eval=FALSE>>=
@@ -328,7 +344,7 @@ data.col <- 5;
 track.num <- 7;
 side <- "in";
 RCircos.Line.Plot(RCircos.Line.Data, data.col, 
-			track.num, side);
+    track.num, side);
 @
 
 <<eval=FALSE>>=	
@@ -337,7 +353,7 @@ data.col <- 4;
 track.num <- 8; 
 side <- "in";
 RCircos.Histogram.Plot(RCircos.Histogram.Data, 
-			data.col, track.num, side);
+    data.col, track.num, side);
 @
 
 <<eval=FALSE>>=
@@ -361,7 +377,7 @@ RCircos.Link.Plot(RCircos.Link.Data, track.num, TRUE);
 
 data(RCircos.Ribbon.Data);
 RCircos.Ribbon.Plot(ribbon.data=RCircos.Ribbon.Data, 
-	track.num=11, by.chromosome=FALSE, twist=FALSE);
+    track.num=11, by.chromosome=FALSE, twist=FALSE);
 
 dev.off();
 @

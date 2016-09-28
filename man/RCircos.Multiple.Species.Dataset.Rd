@@ -1,54 +1,36 @@
 \name{RCircos.Multiple.Species.Dataset}
 \alias{RCircos.Multiple.Species.Dataset}
 \title{
-Construct A Dataset from Multiple Genomic Data of Different Species
+Combine Multiple Data Sets form Different Genomes
 }
 \description{
-Combine plot datasets from different species as one data frame for RCircos plot with multiple sets of chromosome ideogram.
+Combine and modify the chromosome names in multiple species datasets to match the chromosomes in multiple species cytoband data.
 }
 \usage{
 RCircos.Multiple.Species.Dataset(data.list, species)
 }
 \arguments{
   \item{data.list}{
-A List contains data frames for genomic data of different species. All data frames in the list must have same columns.
+List of genomic data from multiple species.
 }
   \item{species}{
-Character vector represent multiple species. Each one will be used as prefix of chromosome names for relavant species. The order of species must match the order of the species in data.list.
+Character vector for prefix of chromosome names to identify different species. The order of species in species list must match the species in data.list.
 }
 }
 \value{
-A data frame contains all input plot data.
+A data frame same as the input data list but with modified chromosome names.
 }
 \author{
-Hongen Zhang
+Henry Zhang
 }
 \examples{
-# Load RCircos libaray
-# __________________________________________________
-# xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
-library(RCircos);
-
-
-# Load mouse and rat gene expression datasets 
-# __________________________________________________
-# xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
-data(RCircos.Mouse.Expr.Data);
-data(RCircos.Rat.Expr.Data);
-data.list <- list(RCircos.Mouse.Expr.Data,   
-                    RCircos.Rat.Expr.Data);
-species <- c("M", "R");
-
-
-# Generate data frome that contains both mouse and
-# rat gene expression data
-# __________________________________________________
-# xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
-\dontrun{new.data <- RCircos.Multiple.Species.Dataset(  
-                          data.list, species);}
+\dontrun{
+library(RCircos)
+data(RCircos.Mouse.Expr.Data)
+data(RCircos.Rat.Expr.Data)
+dataSets <- list(RCircos.Mouse.Expr.Data, RCircos.Rat.Expr.Data)
+dataset <- RCircos.Get.Multiple.Species.Dataset(dataSets,  
+    species.list=c("M", "L"))
+}
 }
 \keyword{ methods }
-
