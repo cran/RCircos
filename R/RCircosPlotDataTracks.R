@@ -1,26 +1,27 @@
 #    
 #    Functions of RCircos data plot on different tracks
 #
-#   1.  RCircos.Gene.Connector.Plot()
-#   2.  RCircos.Gene.Name.Plot()
-#   3.  RCircos.Heatmap.Plot()
-#   4.  RCircos.Histogram.Plot()
-#   5.  RCircos.Line.Plot()
-#   6.  RCircos.Scatter.Plot()
-#   7.  RCircos.Tile.Plot()
-#   8.  RCircos.Link.Plot()
-#   9.  RCircos.Ribbon.Plot()
-#   10. RCircos.Clear.Track()
-#   11. RCircos.Track.Outline()
-#   12. RCircos.Vertical.Line.Plot()
-#   13. RCircos.Point.Plot()
-#   14. RCircos.Parallele.Link.Plot()
-#   15. RCircos.Polygon.Plot()
-#   16. RCircos.Area.Highlight()
-#   17. RCircos.Customized.Shape.Plot()
-#   18. RCircos.Get.Start.End.Locations()
-#   19. RCircos.Adjust.Scatter.Values()
-#   20. RCircos.Area.plot()
+#		 1.		RCircos.Gene.Connector.Plot()
+#		 2.		RCircos.Gene.Name.Plot()
+#		 3.		RCircos.Heatmap.Plot()
+#		 4.		RCircos.Histogram.Plot()
+#		 5.		RCircos.Line.Plot()
+#		 6.		RCircos.Scatter.Plot()
+#		 7.		RCircos.Tile.Plot()
+#		 8.		RCircos.Link.Plot()
+#		 9.		RCircos.Ribbon.Plot()
+#		10.		RCircos.Clear.Track()
+#		11.		RCircos.Track.Outline()
+#		12.		RCircos.Vertical.Line.Plot()
+#		13.		RCircos.Point.Plot()
+#		14.		RCircos.Parallele.Link.Plot()
+#		15.		RCircos.Polygon.Plot()
+#		16.		RCircos.Area.Highlight()
+#		17.		RCircos.Customized.Shape.Plot()
+#		18.		RCircos.Get.Start.End.Locations()
+#		19.		RCircos.Adjust.Scatter.Values()
+#		20.		RCircos.Area.plot()
+#		21.		RCircos.Customized.Connection.Plot()
 #
 #   New arguments have been added for version 1.2 to allow advanced users
 #
@@ -31,7 +32,7 @@
 #   Old arguments will be first and in original order so new arguments
 #   could be ignored for use of old version
 #
-#    Last modified on January 06, 2016
+#    Last modified on August 21, 2017
 #    ________________________________________________________________________
 #    <RCircos><RCircos><RCircos><RCircos><RCircos><RCircos><RCircos><RCircos>
 
@@ -813,7 +814,7 @@ RCircos.Tile.Plot <- function(tile.data=NULL, track.num=NULL,
 #                       genomic position in each row. Must be 3.   
 #       is.sorted:      Logic, whether the data is sorted by chromosome names
 #                       and start position
-#       lineWidth:      Non-negative integer vector, width for each link line.
+#       lineWidth:      Non-negative numeric vector, width for each link line.
 #
 #   Example:    RCircos.Link.Plot(link.data, 9, TRUE)
 #               RCircos.Link.Plot(link.data, by.chromosome=FALSE, start.pos=0.6)
@@ -827,8 +828,8 @@ RCircos.Link.Plot <- function(link.data=NULL, track.num=NULL,
     if(is.null(link.data)) stop("Link data missing in RCircos.Link.Plot().\n");
     if(by.chromosome!=TRUE && by.chromosome!=FALSE)
         stop("Error: by.chromosome must be either TRUE or FALSE.\n");   
-    if(length(which(lineWidth < 1)) > 1) 
-        stop("Line width must be positive integer.")
+    if(length(which(lineWidth < 0)) > 1) 
+        stop("Line width must be positive.")
 
     RCircos.Par <- RCircos.Get.Plot.Parameters();
     
@@ -1798,6 +1799,7 @@ RCircos.Adjust.Scatter.Values <- function(scatter.values=NULL, min.value=NULL,
 #   3.  Both bottom and top of the area are continue lines connecting each
 #       each data point with different height (confidence region)
 #
+#		Arguments:
 #
 #       area.data:      A data frame with leading columns for genomic positions
 #                       followed by data column(s). Data must be sorted first  
@@ -1920,6 +1922,59 @@ RCircos.Area.Plot <- function(area.data=NULL, data.col=c(4,5), track.num=NULL,
                     border=border.col);
     }
 }
+
+
+
+
+#   =========================================================================
+#
+#'		21.		RCircos.Customized.Connection.Plot()
+#'
+#'		Plot connection lines (simple lines plot) between two set 
+#'		of data points. One example of usage is to label genes at
+#'		modified plot position and connect the gene label to its
+#'		genomic position.
+#'
+#'		Prerequisite:		
+#'		RCircos core components and graphic device must be 
+#'		initialized.
+#'
+#"
+#'		Arguments:
+#'
+#'		gene.data:
+#'		Data frame with chromosome name and actual genomic positions 
+#'		for the genes to be labeled.
+#'
+#'		label.data: 
+#'		Data frame with chromosome name and genomic positions that
+#'		was used to label gene names
+#
+#'		gene.pos, label.pos:
+#'		float numeric, scale factors relative to the center of plot   
+#'		area (0). These two locations represent the start and end 
+#'		location of lines.
+#'
+#'
+#'		Returned value:	None.
+#'
+
+RCircos.Customized.Connection.Plot <- function(gene.data, label.data, 
+			gene.pos=NULL, label.pos=NULL)
+{
+	gene_loc  <- RCircos.Get.Single.Point.Positions(gene.data, 3);
+	label_loc <- RCircos.Get.Single.Point.Positions(label.data,3);
+	
+	Positions <- RCircos.Get.Plot.Positions(); 
+	start_pos <- Positions[gene_loc$Location, 1:2]*gene.pos;
+	  end_pos <- Positions[label_loc$Location, 1:2]*label.pos;
+
+	for(a_loc in 1:nrow(gene.data)) {
+		lines(c(start_pos[a_loc, 1], end_pos[a_loc,1]),
+				c(start_pos[a_loc, 2], end_pos[a_loc,2]));
+	}
+}
+
 
 
 #   End of RCircosPlotDataTracks.R

@@ -23,7 +23,8 @@
     #   xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
     data(RCircos.Scatter.Data);
-    RCircos.Scatter.Data$chromosome <- paste0("chr", 
+	if(length(grep("chr", RCircos.Scatter.Data$chromosome)) == 0)
+		RCircos.Scatter.Data$chromosome <- paste0("chr", 
         RCircos.Scatter.Data$chromosome);
     
     data(UCSC.HG19.Human.CytoBandIdeogram);

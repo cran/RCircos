@@ -1,6 +1,5 @@
 \name{RCircos.Gene.Name.Plot}
 \alias{RCircos.Gene.Name.Plot}
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Draw Gene Names on a Data Track
 }

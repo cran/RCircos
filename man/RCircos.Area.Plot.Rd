@@ -66,8 +66,7 @@ data(RCircos.Polygon.Data);
 
 RCircos.Set.Core.Components(  
     cyto.info=UCSC.HG19.Human.CytoBandIdeogram,  
-    chr.exclude=c("chrX", "chrY"), 
-    tracks.inside=10, tracks.outside=5)  
+    chr.exclude=NULL, tracks.inside=10, tracks.outside=5)  
 RCircos.Set.Plot.Area();
 RCircos.Chromosome.Ideogram.Plot()
 

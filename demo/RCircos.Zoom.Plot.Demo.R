@@ -92,9 +92,6 @@
     #   =================================================================
 
     data(RCircos.Scatter.Data);
-    RCircos.Scatter.Data[,1] <- paste0("chr", RCircos.Scatter.Data[,1])
-    colnames(RCircos.Scatter.Data)[1] <- "Chromosome";
-
     RCircos.Scatter.Plot(RCircos.Scatter.Data, data.col=5, track.num=3,
             side="in", by.fold=1);
 
@@ -281,14 +278,6 @@
 
     dev.off()
     message("Zoom in plot demo done!")
-
-
-
-
-
-
-
-
 
 
 

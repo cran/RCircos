@@ -101,7 +101,6 @@
 
     message("Add scatterplot track ...\n");
     data(RCircos.Scatter.Data);
-    RCircos.Scatter.Data[,1] <- paste0("chr", RCircos.Scatter.Data[,1])
     RCircos.Scatter.Plot(scatter.data=RCircos.Scatter.Data, data.col=5, 
                 track.num=6, side="in", by.fold=1);
 

@@ -16,7 +16,7 @@
 #   13. RCircos.Pseudo.Ideogram.From.Table()
 #   14. RCircos.Validate.Genomic.Info()
 #
-#   Last debugged on September 14, 2016
+#   Last debugged on December 7, 2016
 #   ________________________________________________________________________
 #   <RCircos><RCircos><RCircos><RCircos><RCircos><RCircos><RCircos><RCircos>
 
@@ -332,7 +332,8 @@ RCircos.Draw.Chromosome.Ideogram <- function (ideo.pos=NULL, ideo.width=NULL)
     #   ================================================
     #
     whiteBands <- which(RCircos.Cyto$BandColor == "white");
-    darkBands  <- RCircos.Cyto[-whiteBands,];
+	darkBands <- RCircos.Cyto;	
+	if(length(whiteBands)>0) darkBands <- darkBands[-whiteBands, ];
 
     for(aBand in seq_len(nrow(darkBands)))
     {
@@ -815,9 +816,9 @@ RCircos.Pseudo.Ideogram.From.Labels <- function(chromosomes=NULL)
     if(length(unique(chromosomes)) != totalRows)
         stop("Names for chromosomes must be unique.\n")
 
-    RCircos.Par <- RCircos.Get.Plot.Parameters();
     defaultUnits <- RCircos.Get.Default.Circos.Units();
-    segmentLen <- floor(defaultUnits/totalRows)*RCircos.Par$base.per.unit;
+    defaultBases <- RCircos.Get.Default.Base.Per.Units();
+    segmentLen <- floor(defaultUnits/totalRows)*defaultBases;
 
     pseudoIdeogram <- data.frame(Chromosome=chromosomes, 
                         chromStart=rep(0, totalRows),

@@ -1,9 +1,7 @@
 \name{RCircos.Reset.Core.Components}
-\alias{
-RCircos.Reset.Plot.Ideogram
-RCircos.Reset.Plot.Parameters
-RCircos.Reset.Plot.Positions
-}
+\alias{RCircos.Reset.Plot.Ideogram}
+\alias{RCircos.Reset.Plot.Parameters}
+\alias{RCircos.Reset.Plot.Positions}
 \title{
 Reset Methods for Modifying RCircos Core Components
 }

@@ -41,11 +41,11 @@
 
 RCircos.Set.Base.Plot.Positions<-function(total.points=NULL)
 {
-    #   If total points is not provided, calculating it from chromosome 
-    #   ideogram data and add one padding length to the last chromosome. 
-    #    already included in RCircos.Cyto$Location.
-    #   =========================================================
-    #
+	#   If total points are not provided, calculating it from  
+	#   chromosome ideogram data and add one padding length to 
+	#	the last chromosome. 
+	#   =========================================================
+	#
     if(is.null(total.points)) {
         RCircos.Cyto <- RCircos.Get.Plot.Ideogram();
         RCircos.Par <- RCircos.Get.Plot.Parameters();    
