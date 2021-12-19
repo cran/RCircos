@@ -820,16 +820,18 @@ RCircos.Tile.Plot <- function(tile.data=NULL, track.num=NULL,
 #               RCircos.Link.Plot(link.data, by.chromosome=FALSE, start.pos=0.6)
 #
 
-RCircos.Link.Plot <- function(link.data=NULL, track.num=NULL, 
-                by.chromosome=FALSE, start.pos=NULL, 
-                genomic.columns=3, is.sorted=TRUE,
+RCircos.Link.Plot <- function(link.data=NULL, track.num=NULL, by.chromosome=FALSE, 
+                start.pos=NULL, genomic.columns=3, is.sorted=TRUE, 
                 lineWidth=rep(1, nrow(link.data)))
 {
     if(is.null(link.data)) stop("Link data missing in RCircos.Link.Plot().\n");
     if(by.chromosome!=TRUE && by.chromosome!=FALSE)
-        stop("Error: by.chromosome must be either TRUE or FALSE.\n");   
-    if(length(which(lineWidth < 0)) > 1) 
-        stop("Line width must be positive.")
+        stop("Error: by.chromosome must be either TRUE or FALSE.\n");
+		
+    if(length(which(lineWidth < 0)) > 1 ) 
+		stop("Line width must be positive.");
+	if(length(lineWidth) > 1 && length(lineWidth) != nrow(link.data))
+		stop("Length of lineWidth must match rows of link.data");
 
     RCircos.Par <- RCircos.Get.Plot.Parameters();
     
@@ -1723,7 +1725,7 @@ RCircos.Get.Start.End.Locations <- function(plot.data, plot.width)
 
         end.outliers <- which(locations[data.rows, 2] > chr.end)
         if(length(end.outliers)>0) 
-            locations[data.rows[start.outliers], 2] <- chr.end;
+            locations[data.rows[end.outliers], 2] <- chr.end;
     }
 
     return (locations);
