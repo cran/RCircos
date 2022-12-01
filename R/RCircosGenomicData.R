@@ -549,42 +549,48 @@ RCircos.Get.Data.Point.Height <- function(plot.values=NULL, min.value=NULL,
 
 RCircos.Get.Plot.Layers <- function(genomic.data=NULL, genomic.columns=NULL) 
 {
-    if(is.null(genomic.data)) 
-        stop("Missing argument in RCircos.Check.Position.Overlaps().\n");
-    if(is.null(genomic.columns) || genomic.columns != 3)
-        stop("Start and end position are needed for layer assignment.\n");
-
-    theLayer <- 1;
-    theChr   <- as.character(genomic.data[1, 1]);
-    theStart <- as.numeric(genomic.data[1, 2]);  
-    theEnd   <- as.numeric(genomic.data[1, 3]);
-
-    segLayers <- rep(1, nrow(genomic.data));
-    for(aRow in seq_len(nrow(genomic.data))[-1])
-    {
-        #   Meet a new region without overlap with previous or
-        #   a different chromosome, reset relevant variables
-        #   ==================================================
-        #
-        if (genomic.data[aRow, 2] >= theEnd ) {
-            theLayer <- 1; 
-            theStart <- genomic.data[aRow, 2];
-            theEnd   <- genomic.data[aRow, 3];
-        } else if (genomic.data[aRow, 1] != theChr) {
-            theLayer <- 1;  
-            theChr   <- genomic.data[aRow, 1];
-            theStart <- genomic.data[aRow, 2];
-            theEnd   <- genomic.data[aRow, 3];
-        } else {  
-            theLayer <- theLayer + 1; 
-            if(genomic.data[aRow, 3] > theEnd) 
-            { theEnd <- genomic.data[aRow, 3]; }
-        }
-        segLayers[aRow] <- theLayer;
+  if(is.null(genomic.data)) 
+    stop("Missing argument in RCircos.Check.Position.Overlaps().\n");
+  if(is.null(genomic.columns) || genomic.columns != 3)
+    stop("Start and end position are needed for layer assignment.\n");
+  genomic.data <- genomic.data[order(genomic.data[,2]),]; # order by start position
+  theLayer <- 1;
+  theChr   <- as.character(genomic.data[1, 1]);
+  theStart <- as.numeric(genomic.data[1, 2]);  
+  theEnd   <- as.numeric(genomic.data[1, 3]);
+  nestedEnd1   <- as.numeric(genomic.data[1, 3]);
+  nestedEnd2   <- as.numeric(genomic.data[1, 3]);
+  segLayers <- rep(1, nrow(genomic.data));
+  for(aRow in seq_len(nrow(genomic.data))[-1])  {
+    #   Meet a new region without overlap with previous or
+    #   a different chromosome, reset relevant variables
+    #   ==================================================
+    #
+    if (genomic.data[aRow, 2] >= theEnd ) { # if end of tile n-1 does not overlap tile n range. set to 1 and update new end
+      theLayer <- 1; 
+      theStart <- genomic.data[aRow, 2];
+      theEnd   <- genomic.data[aRow, 3];
+    } else if (genomic.data[aRow, 1] != theChr) {
+      theLayer <- 1;  
+      theChr   <- genomic.data[aRow, 1];
+      theStart <- genomic.data[aRow, 2];
+      theEnd   <- genomic.data[aRow, 3];
+    } else {  # if end of tile n-1 does overlap tile n
+      if(genomic.data[aRow, 2] >= nestedEnd1){ # if we are nested once
+        nestedEnd1 <- genomic.data[aRow, 3]; # update end
+        theLayer <- 2;
+      } else if(genomic.data[aRow, 2] >= nestedEnd2){ # if we are nested twice
+        nestedEnd2 <- genomic.data[aRow, 3]; # update end
+        theLayer <- 3;
+      }
+      if(genomic.data[aRow, 3] > theEnd) 
+      { theEnd <- genomic.data[aRow, 3]; }
     }
-
-    return(segLayers);
+    segLayers[aRow] <- theLayer;
+  }  
+  return(segLayers);
 }
+
 
 
 #   End of RCircosGenomicData.R
